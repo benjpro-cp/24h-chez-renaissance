@@ -1,0 +1,1530 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Le Renaissance Aix-en-Provence s'ouvre aux Aixois : run club, déj, spa, Jeudis. L'hôtel, c'est pour dormir. Tout le reste est à vous.">
+<meta property="og:title" content="24h chez Renaissance">
+<meta property="og:description" content="L'hôtel, c'est pour dormir. Tout le reste est à vous.">
+<meta property="og:image" content="img/facade.jpg">
+<meta name="theme-color" content="#3e3d40">
+<link rel="icon" href="img/r-anthracite.png">
+<title>24h chez Renaissance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Barlow+Condensed:wght@700;800&family=Caveat:wght@600&display=swap">
+<style>
+/* Mise en page : bandes pleine largeur, beige le jour, anthracite le soir, contenu sur 1120 px.
+   Charte Renaissance Aix : anthracite et beige, jaune par touches (la clé est la seule grande surface jaune),
+   Barlow pour le texte, Barlow Condensed pour les heures, une manuscrite pour la signature, le R en motif.
+   Un seul univers visuel, celui de la marque : la page ne bascule pas en sombre. */
+:root {
+  color-scheme: light;
+  --anthracite: #3e3d40;
+  --nuit: #2b2a2d;
+  --nuit-rgb: 43, 42, 45;
+  --charbon: #1d1c1e;
+  --fente: #0d0d0e;
+  --beige: #e6ddd4;
+  --sable: #f3eee8;
+  --jaune: #e8af00;
+  --jaune-vif: #f4c02a;
+  --jaune-voile: rgba(232, 175, 0, 0.24);
+  --blanc: #ffffff;
+  --encre: #3e3d40;
+  --encre-douce: #57535b;
+  --lin: #d6cbbf;
+  --brume: #cfc6bc;
+  --voyant-eteint: #5a585e;
+  --filet-nuit: rgba(230, 221, 212, 0.2);
+  --erreur: #ffb4a3;
+  --f-texte: "Barlow", "Helvetica Neue", Arial, sans-serif;
+  --f-heure: "Barlow Condensed", "Arial Narrow", "Helvetica Neue", Arial, sans-serif;
+  --f-main: "Caveat", "Segoe Print", "Bradley Hand", cursive;
+  --gutter: 16px;
+}
+@media (min-width: 720px) { :root { --gutter: 32px; } }
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--sable);
+  color: var(--encre);
+  font-family: var(--f-texte);
+  font-size: 17px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 30;
+  background: var(--anthracite);
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+abbr { text-decoration: none; }
+h1, h2, h3, p { margin: 0; }
+h2, h3 { text-wrap: balance; }
+:focus-visible { outline: 3px solid var(--anthracite); outline-offset: 3px; }
+.sur-nuit :focus-visible { outline-color: var(--jaune); }
+
+.wrap {
+  width: 100%;
+  max-width: calc(1120px + 2 * var(--gutter));
+  margin-inline: auto;
+  padding-left: max(var(--gutter), env(safe-area-inset-left, 0px));
+  padding-right: max(var(--gutter), env(safe-area-inset-right, 0px));
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+
+/* Bandes */
+.bande { padding-block: clamp(56px, 8vw, 104px); scroll-margin-top: 64px; }
+.bande-sable { background: var(--sable); color: var(--encre); }
+.bande-beige { background: var(--beige); color: var(--encre); }
+.bande-nuit { background: var(--anthracite); color: var(--beige); }
+h2 {
+  font-size: clamp(34px, 5.2vw, 54px);
+  font-weight: 800;
+  line-height: 1.04;
+  letter-spacing: -0.01em;
+  max-width: 20ch;
+}
+.chapo { font-size: clamp(18px, 2vw, 20px); max-width: 52ch; margin-top: 14px; }
+.bande-sable .chapo, .bande-beige .chapo { color: var(--encre-douce); }
+.bande-nuit .chapo { color: var(--brume); }
+
+/* Boutons */
+.bouton {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-height: 52px; padding: 0 26px;
+  font: 700 16px/1 var(--f-texte); letter-spacing: 0.04em;
+  text-decoration: none; cursor: pointer;
+  border: 2px solid transparent; border-radius: 0;
+  transition: background-color .15s ease, color .15s ease;
+}
+.bouton-jaune { background: var(--jaune); color: var(--anthracite); }
+.bouton-jaune:hover { background: var(--jaune-vif); }
+.bouton-jaune:disabled { cursor: progress; background: var(--jaune-vif); }
+.bouton-ligne { background: transparent; color: inherit; border-color: currentColor; }
+.bouton-ligne:hover { background: var(--beige); color: var(--anthracite); border-color: var(--beige); }
+.bouton-petit { min-height: 44px; padding: 0 18px; font-size: 15px; }
+.lien-fleche { font-weight: 700; text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; white-space: nowrap; }
+
+/* Bandeau maquette */
+.bandeau-demo { background: var(--nuit); color: var(--brume); font-size: 13px; line-height: 1.4; padding-block: 8px; text-align: center; }
+
+/* En-tête */
+.entete {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+  background: var(--anthracite); color: var(--beige);
+  border-bottom: 1px solid var(--filet-nuit);
+}
+.entete-in { display: flex; align-items: center; gap: 28px; min-height: 64px; }
+.marque { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--beige); font-size: 16px; font-weight: 500; white-space: nowrap; min-width: 0; }
+.marque img { width: 26px; height: auto; }
+.marque b { font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; }
+.nav { display: flex; gap: 26px; margin-left: auto; }
+.nav a { color: var(--beige); text-decoration: none; font-weight: 600; font-size: 15px; padding-block: 8px; border-bottom: 2px solid transparent; }
+.nav a:hover { border-bottom-color: var(--jaune); }
+.entete .bouton { flex-shrink: 0; }
+@media (max-width: 899px) {
+  .nav { display: none; }
+  .entete .bouton { margin-left: auto; }
+}
+@media (max-width: 379px) {
+  .marque span { font-size: 14px; }
+  .entete-in { gap: 12px; }
+}
+
+/* Ouverture */
+.hero { position: relative; overflow: hidden; background: var(--nuit); color: var(--blanc); }
+.hero-photo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 80% 40%; }
+.hero::after {
+  content: ""; position: absolute; inset: 0;
+  background:
+    linear-gradient(90deg, rgba(var(--nuit-rgb), 0.94) 0%, rgba(var(--nuit-rgb), 0.78) 38%, rgba(var(--nuit-rgb), 0.12) 72%),
+    linear-gradient(0deg, rgba(var(--nuit-rgb), 0.55) 0%, rgba(var(--nuit-rgb), 0) 45%);
+}
+.hero-in { position: relative; z-index: 1; padding-block: clamp(56px, 8vw, 104px); display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
+.hero-logo { width: clamp(150px, 17vw, 200px); height: auto; margin-bottom: 8px; }
+.hero h1 { display: flex; flex-direction: column; }
+.h-heure { font: 800 clamp(128px, 21vw, 240px)/0.78 var(--f-heure); letter-spacing: -0.03em; }
+.h-chez { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin-top: 14px; font-size: clamp(22px, 3vw, 30px); font-weight: 500; }
+.h-marque { font-size: clamp(34px, 6vw, 64px); font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--jaune); line-height: 1; }
+.hero-texte { font-size: clamp(18px, 2.1vw, 21px); max-width: 36ch; color: var(--sable); }
+.signature { font: 600 clamp(42px, 5vw, 58px)/1 var(--f-main); color: var(--beige); }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+@media (max-width: 719px) {
+  .hero-photo { height: 62%; object-position: 76% 35%; }
+  .hero::after {
+    background: linear-gradient(180deg, rgba(var(--nuit-rgb), 0.1) 0%, rgba(var(--nuit-rgb), 0.35) 30%, rgba(var(--nuit-rgb), 1) 58%);
+  }
+  .hero-in { padding-top: 46vw; }
+  .hero-logo { display: none; }
+}
+
+/* En ce moment */
+.maintenant { background: var(--jaune); color: var(--anthracite); }
+.maint-in { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 28px; padding-block: 18px; }
+.maint-heure { font: 800 46px/1 var(--f-heure); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.maint-texte { flex: 1 1 300px; min-width: 0; font-size: 18px; font-weight: 600; line-height: 1.35; }
+.etiquette { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; margin-right: 10px; }
+.etiquette::before { content: ""; width: 9px; height: 9px; border-radius: 50%; background: var(--anthracite); animation: pouls 1.8s ease-in-out infinite; }
+@keyframes pouls { 50% { opacity: 0.25; } }
+
+/* Comment ça marche */
+.etapes { list-style: none; margin: 36px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+.etapes li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 16px; align-items: start; }
+.etape-num { grid-row: span 2; width: 52px; height: 52px; border-radius: 50%; background: var(--jaune); color: var(--anthracite); display: grid; place-items: center; font: 800 28px/1 var(--f-heure); }
+.etapes h3 { font-size: 21px; font-weight: 800; line-height: 1.25; padding-top: 3px; }
+.etapes p { font-size: 17px; color: var(--encre-douce); }
+@media (max-width: 859px) { .etapes { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+
+/* La journée */
+.onglets { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 24px; }
+.onglet {
+  position: relative;
+  min-height: 52px; min-width: 70px; padding: 0 18px;
+  font: 800 24px/1 var(--f-heure); letter-spacing: 0.01em;
+  color: var(--anthracite); background: transparent;
+  border: 2px solid var(--anthracite); border-radius: 0; cursor: pointer;
+}
+.onglet:hover { background: var(--sable); }
+.onglet[aria-selected="true"] { background: var(--anthracite); color: var(--beige); }
+.onglet.est-maintenant::after {
+  content: ""; position: absolute; top: -7px; right: -7px;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: var(--jaune); border: 2px solid var(--beige);
+}
+@media (max-width: 559px) {
+  .onglets { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
+  .onglet { min-width: 0; padding: 0 4px; font-size: 21px; }
+}
+.legende { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--encre-douce); margin-top: -8px; margin-bottom: 20px; }
+.legende::before { content: ""; width: 12px; height: 12px; border-radius: 50%; background: var(--jaune); border: 2px solid var(--anthracite); }
+.panneau { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); background: var(--sable); }
+.panneau > img { width: 100%; height: 100%; min-height: 340px; object-fit: cover; }
+.panneau-texte { padding: clamp(24px, 4vw, 52px); display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.p-heure { font: 800 clamp(80px, 10vw, 124px)/0.8 var(--f-heure); letter-spacing: -0.02em; }
+.panneau h3 { font-size: clamp(26px, 3vw, 34px); font-weight: 800; line-height: 1.1; }
+.p-meta { font-size: 15px; font-weight: 700; letter-spacing: 0.04em; color: var(--encre-douce); }
+.panneau p.p-ligne { font-size: 18px; max-width: 40ch; }
+.panneau .lien-fleche { align-self: flex-start; }
+@media (max-width: 759px) {
+  .panneau { grid-template-columns: minmax(0, 1fr); }
+  .panneau > img { min-height: 0; height: auto; aspect-ratio: 16 / 10; }
+}
+
+/* La semaine */
+.table-scroll { overflow-x: auto; margin-top: 32px; border-top: 3px solid var(--anthracite); }
+.grille { width: 100%; min-width: 300px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.grille th, .grille td { padding: 14px 4px; border-bottom: 1px solid var(--lin); text-align: center; vertical-align: middle; }
+.grille thead th { font: 800 20px/1 var(--f-heure); width: 54px; position: relative; }
+.grille thead th:first-child { width: auto; }
+.grille tbody th { text-align: left; padding-left: 0; padding-right: 12px; font-weight: 400; }
+.r-nom { display: block; font-weight: 800; font-size: 17px; line-height: 1.3; }
+.r-info { display: block; font-size: 14px; line-height: 1.35; color: var(--encre-douce); font-weight: 500; }
+.point { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--anthracite); vertical-align: middle; }
+.grille .aujourdhui { background: var(--jaune-voile); }
+.grille thead th.aujourdhui::after { content: ""; position: absolute; left: 50%; bottom: 4px; width: 18px; height: 3px; margin-left: -9px; background: var(--anthracite); }
+@media (max-width: 559px) {
+  .grille thead th { width: 30px; font-size: 17px; }
+  .grille th, .grille td { padding-block: 12px; }
+  .r-nom { font-size: 16px; }
+}
+
+/* Les Jeudis */
+.jeudis-tete { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 20px; }
+.prochain { font-size: 17px; color: var(--brume); }
+.prochain strong { color: var(--beige); }
+.jeudis-grille { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 36px; }
+.jeudi { position: relative; background: var(--nuit); padding: 24px 22px 26px; display: flex; flex-direction: column; gap: 8px; outline: 2px solid transparent; outline-offset: -2px; }
+.jeudi.prochain-jeudi { outline-color: var(--jaune); }
+.j-rang { font-size: 13px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brume); }
+.jeudi h3 { font: 800 clamp(42px, 3.8vw, 52px)/0.9 var(--f-heure); color: var(--beige); letter-spacing: -0.01em; }
+.j-lieu { font-weight: 700; color: var(--jaune); font-size: 16px; }
+.jeudi p:last-child { color: var(--brume); font-size: 16px; }
+.badge { align-self: flex-start; background: var(--jaune); color: var(--anthracite); font-size: 12px; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 10px; line-height: 1.2; }
+@media (max-width: 999px) { .jeudis-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 559px) { .jeudis-grille { grid-template-columns: minmax(0, 1fr); } }
+
+/* La clé : les niveaux */
+.parcours { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
+.parcours li { position: relative; padding-top: 44px; display: flex; flex-direction: column; gap: 6px; }
+.parcours li::before {
+  content: ""; position: absolute; top: 0; left: 0; z-index: 1;
+  width: 26px; height: 26px; border-radius: 50%;
+  background: var(--sable); border: 3px solid var(--anthracite);
+}
+.parcours li:first-child::before { background: var(--jaune); }
+.parcours li:not(:last-child)::after {
+  content: ""; position: absolute; top: 12px; left: 26px; right: -28px;
+  height: 2px; background: var(--anthracite);
+}
+.parcours h3 { font: 800 46px/0.95 var(--f-heure); }
+.n-quand { font-size: 13px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--encre-douce); }
+.parcours ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 17px; }
+.parcours-note { margin-top: 28px; font-size: 17px; color: var(--encre-douce); }
+@media (max-width: 759px) {
+  .parcours { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .parcours li { padding-top: 0; padding-left: 46px; }
+  .parcours li:not(:last-child)::after { top: 26px; bottom: -28px; left: 12px; right: auto; width: 2px; height: auto; }
+}
+
+/* La clé (objet) */
+.scene { position: relative; width: 100%; max-width: 440px; }
+.carte-cle {
+  position: relative; z-index: 1; overflow: hidden;
+  width: 100%; aspect-ratio: 85.6 / 54;
+  background: var(--jaune); color: var(--anthracite);
+  border-radius: 16px;
+  padding: 6.5% 7%;
+  display: flex; flex-direction: column; justify-content: space-between;
+  box-shadow: 0 28px 50px -24px rgba(0, 0, 0, 0.6);
+}
+.cle-r { position: absolute; right: -5%; bottom: -16%; width: 58%; opacity: 0.13; pointer-events: none; }
+.cle-haut { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: clamp(10px, 2.6vw, 12px); font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; }
+.cle-marque { display: flex; align-items: center; gap: 8px; }
+.cle-marque img { width: 18px; height: auto; }
+.cle-etat { display: inline-flex; align-items: center; gap: 6px; padding: 5px 8px; border: 2px solid var(--anthracite); line-height: 1; }
+.cle-etat.ok { background: var(--anthracite); color: var(--jaune); }
+.cle-etat.ok::before {
+  content: ""; width: 9px; height: 5px;
+  border-left: 2px solid currentColor; border-bottom: 2px solid currentColor;
+  transform: rotate(-45deg) translateY(-2px);
+}
+.cle-milieu { position: relative; display: flex; flex-direction: column; gap: 4px; }
+.cle-nom { font: 800 clamp(26px, 7vw, 40px)/1 var(--f-texte); overflow-wrap: anywhere; }
+.cle-signature { font: 600 clamp(20px, 4.8vw, 27px)/1 var(--f-main); }
+.cle-bas { position: relative; display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.cle-niveau { background: var(--anthracite); color: var(--jaune); font-size: clamp(10px, 2.5vw, 12px); font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 6px 10px; line-height: 1.2; }
+.cle-numero { font: 700 clamp(12px, 3vw, 15px)/1 var(--f-texte); font-variant-numeric: tabular-nums; letter-spacing: 0.08em; }
+.carte-cle.active::after {
+  content: ""; position: absolute; inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(255, 255, 255, 0.6) 46%, transparent 62%);
+  transform: translateX(-110%);
+  animation: reflet 1.2s ease-out 0.05s forwards;
+}
+@keyframes reflet { to { transform: translateX(110%); } }
+
+/* L'encodeur, visible seulement pendant la création */
+.scene.encodage { overflow: hidden; }
+.encodeur {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2;
+  height: 52%;
+  visibility: hidden;
+  background: var(--charbon); color: var(--brume);
+  border-radius: 12px 12px 0 0;
+  border-top: 6px solid var(--fente);
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 12px;
+  padding: 0 20px 18px;
+  font-size: 12px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase;
+  transform: translateY(100%);
+}
+.encodage .encodeur { visibility: visible; }
+.encodeur-marque { display: flex; align-items: center; gap: 8px; }
+.encodeur-marque img { width: 16px; height: auto; opacity: 0.85; }
+.voyant { width: 14px; height: 14px; border-radius: 50%; background: var(--voyant-eteint); }
+
+/* Inscription */
+.inscription-grille {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "titre carte" "form carte";
+  gap: 32px 72px; align-items: start;
+}
+.inscription-titre { grid-area: titre; }
+.inscription-carte { grid-area: carte; display: flex; flex-direction: column; gap: 28px; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 96px); }
+.formulaire { grid-area: form; }
+@media (max-width: 859px) {
+  .inscription-grille { grid-template-columns: minmax(0, 1fr); grid-template-areas: "titre" "carte" "form"; }
+  .inscription-carte { position: static; }
+}
+.champs { display: grid; gap: 20px; }
+.champ label, .champ legend { display: block; font-weight: 700; font-size: 15px; margin-bottom: 8px; color: var(--beige); }
+.champ input[type="text"], .champ input[type="email"] {
+  width: 100%; min-height: 54px; padding: 12px 14px;
+  font: 500 17px var(--f-texte); color: var(--anthracite);
+  background: var(--sable); border: 2px solid var(--sable); border-radius: 0;
+}
+.champ input[aria-invalid="true"] { border-color: var(--erreur); }
+.message-erreur { margin-top: 8px; font-size: 15px; font-weight: 600; color: var(--erreur); }
+fieldset.champ { border: 0; padding: 0; margin: 0; min-width: 0; }
+.puces { display: flex; flex-wrap: wrap; gap: 10px; }
+.puce { position: relative; }
+.puce input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.puce span {
+  display: inline-flex; align-items: center; min-height: 46px; padding: 0 18px;
+  border: 2px solid var(--brume); color: var(--beige); font-weight: 700; cursor: pointer;
+}
+.puce input:checked + span { background: var(--jaune); border-color: var(--jaune); color: var(--anthracite); }
+.puce input:focus-visible + span { outline: 3px solid var(--jaune); outline-offset: 3px; }
+.formulaire .bouton { width: 100%; margin-top: 8px; }
+.demo { font-size: 14px; color: var(--brume); }
+
+.confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.confirmation h3 { font-size: clamp(28px, 3.4vw, 36px); font-weight: 800; line-height: 1.1; color: var(--beige); outline: none; }
+.conf-verre { font-size: 19px; font-weight: 700; color: var(--beige); }
+.confirmation p { color: var(--brume); }
+.confirmation p strong { color: var(--beige); }
+.conf-app { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-size: 16px; color: var(--brume); }
+.bientot { flex-shrink: 0; background: var(--jaune); color: var(--anthracite); font-size: 11px; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase; padding: 5px 8px; line-height: 1.2; }
+
+/* La visite : chaque photo est enroulée autour du visiteur, on tourne la tête en glissant */
+.visionneuse { position: relative; margin-top: 28px; width: 100%; aspect-ratio: 16 / 9; max-height: 680px; overflow: hidden; background: var(--nuit); user-select: none; -webkit-user-select: none; }
+.visionneuse canvas, .visite-repli { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.visionneuse canvas { cursor: grab; touch-action: pan-y; }
+.visionneuse canvas:active { cursor: grabbing; }
+.visionneuse canvas:focus-visible { outline: 3px solid var(--jaune); outline-offset: -3px; }
+.visite-repli { object-fit: cover; }
+.points { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+.repere { position: absolute; left: 0; top: 0; transition: opacity .25s ease; will-change: transform; }
+.repere-in { display: flex; align-items: center; gap: 8px; transform: translate(-11px, -50%); }
+.repere.a-gauche .repere-in { flex-direction: row-reverse; transform: translate(calc(-100% + 11px), -50%); }
+.repere-rond { flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--jaune); border: 3px solid var(--blanc); animation: halo 2.2s ease-out infinite; }
+@keyframes halo { from { box-shadow: 0 0 0 0 rgba(232, 175, 0, 0.7); } to { box-shadow: 0 0 0 16px rgba(232, 175, 0, 0); } }
+.repere-texte { background: var(--blanc); color: var(--charbon); font-size: 14px; font-weight: 700; line-height: 1.2; padding: 7px 11px; white-space: nowrap; box-shadow: 0 8px 20px -10px rgba(0, 0, 0, 0.6); }
+.voile { position: absolute; inset: 0; z-index: 3; background: var(--nuit); opacity: 1; pointer-events: none; }
+.piece-nom { position: absolute; left: 16px; top: 14px; z-index: 4; font: 800 clamp(28px, 4vw, 42px)/1 var(--f-heure); color: var(--blanc); text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55); pointer-events: none; }
+.indice { position: absolute; right: 12px; top: 14px; z-index: 4; display: flex; align-items: center; gap: 10px; padding: 10px 16px; background: rgba(var(--nuit-rgb), 0.8); color: var(--blanc); font-size: 14px; font-weight: 700; white-space: nowrap; pointer-events: none; transition: opacity .4s ease; }
+.indice.cache { opacity: 0; }
+.indice svg { animation: balaye 1.8s ease-in-out infinite; }
+@keyframes balaye { 0%, 100% { transform: translateX(-6px); } 50% { transform: translateX(6px); } }
+.tourner { position: absolute; top: 50%; z-index: 5; width: 48px; height: 48px; margin-top: -24px; border: 0; border-radius: 50%; background: rgba(var(--nuit-rgb), 0.62); color: var(--blanc); display: grid; place-items: center; cursor: pointer; }
+.tourner:hover { background: rgba(var(--nuit-rgb), 0.88); }
+.tourner.gauche { left: 12px; }
+.tourner.droite { right: 12px; }
+.suivante { position: absolute; right: 12px; bottom: 12px; z-index: 5; display: inline-flex; align-items: center; gap: 8px; min-height: 48px; padding: 0 18px; border: 0; background: var(--jaune); color: var(--anthracite); font: 700 15px/1 var(--f-texte); cursor: pointer; }
+.suivante:hover { background: var(--jaune-vif); }
+.pieces { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.piece { min-height: 46px; padding: 0 16px; border: 2px solid var(--brume); background: transparent; color: var(--beige); font: 700 15px var(--f-texte); cursor: pointer; }
+.piece[aria-pressed="true"] { background: var(--beige); color: var(--anthracite); border-color: var(--beige); }
+.visite-app { margin-top: 18px; display: flex; align-items: center; flex-wrap: wrap; gap: 10px; color: var(--brume); font-size: 16px; }
+@media (max-width: 719px) {
+  .visionneuse { aspect-ratio: 4 / 5; max-height: 74vh; }
+  .repere-texte { font-size: 13px; padding: 6px 9px; }
+}
+@media (max-width: 559px) {
+  .pieces { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .piece { padding: 0 6px; }
+}
+@media (hover: none) { .tourner { display: none; } }
+.conf-physique { padding-top: 14px; border-top: 1px solid var(--filet-nuit); width: 100%; }
+.lien-bouton { background: none; border: 0; padding: 8px 0; color: var(--beige); font: 700 15px var(--f-texte); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; min-height: 44px; }
+
+/* Infos */
+.infos-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 48px; margin-top: 32px; }
+.infos-grille > div { border-top: 2px solid var(--anthracite); padding-top: 16px; display: flex; flex-direction: column; gap: 6px; }
+.infos-grille h3 { font-size: 13px; font-weight: 800; letter-spacing: 0.16em; text-transform: uppercase; }
+.infos-grille p { color: var(--encre-douce); }
+.infos-grille .fort { color: var(--encre); font-weight: 700; font-size: 18px; line-height: 1.35; }
+.horaires { margin: 0; display: grid; gap: 8px; font-size: 16px; }
+.horaires div { display: flex; justify-content: space-between; gap: 16px; }
+.horaires dt { font-weight: 700; }
+.horaires dd { margin: 0; text-align: right; color: var(--encre-douce); font-variant-numeric: tabular-nums; }
+@media (max-width: 859px) { .infos-grille { grid-template-columns: minmax(0, 1fr); } }
+
+/* Pied de page */
+.pied { background: var(--nuit); color: var(--brume); padding-block: 52px calc(44px + env(safe-area-inset-bottom, 0px)); }
+.pied-in { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 24px 48px; align-items: center; }
+.pied img { width: 160px; height: auto; }
+.pied .signature { font-size: clamp(36px, 4vw, 48px); }
+.pied-note { grid-column: 1 / -1; font-size: 14px; line-height: 1.5; border-top: 1px solid var(--filet-nuit); padding-top: 18px; }
+@media (max-width: 559px) { .pied-in { grid-template-columns: minmax(0, 1fr); } }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  .carte-cle.active::after { display: none; }
+}
+</style>
+
+<div class="bandeau-demo">
+  <div class="wrap">Projet étudiant EFAP · maquette non officielle</div>
+</div>
+
+<header class="entete sur-nuit">
+  <div class="wrap entete-in">
+    <a class="marque" href="#haut"><img src="img/r-blanc.png" alt="" width="343" height="317"><span>24h chez <b>Renaissance</b></span></a>
+    <nav class="nav" aria-label="Sections du site">
+      <a href="#journee">La journée</a>
+      <a href="#visite">La visite</a>
+      <a href="#semaine">La semaine</a>
+      <a href="#jeudis">Les Jeudis</a>
+      <a href="#cle">La clé</a>
+    </nav>
+    <a class="bouton bouton-jaune bouton-petit" href="#inscription">Ma clé</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero sur-nuit" id="haut" aria-labelledby="titre-principal">
+    <img class="hero-photo" src="img/facade.jpg" alt="" width="1600" height="1200">
+    <div class="wrap hero-in">
+      <img class="hero-logo" src="img/logo-blanc.png" alt="Renaissance Aix-en-Provence Hotel" width="640" height="322">
+      <h1 id="titre-principal"><span class="h-heure">24h</span><span class="h-chez">chez <span class="h-marque">Renaissance</span></span></h1>
+      <p class="hero-texte">L’hôtel s’ouvre aux Aixois : restaurant, bar, spa, piscines et 150 œuvres d’art, sans réserver de chambre.</p>
+      <p class="signature">tout le reste est à vous.</p>
+      <div class="hero-actions">
+        <a class="bouton bouton-jaune" href="#inscription">Récupérer ma clé</a>
+        <a class="bouton bouton-ligne" href="#journee">Voir la journée</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="maintenant" aria-label="En ce moment au Renaissance">
+    <div class="wrap maint-in">
+      <p class="maint-heure" id="maint-heure">12h00</p>
+      <p class="maint-texte"><span class="etiquette" id="maint-etiquette">En ce moment</span><span id="maint-texte">Le déj des voisins à Atmosph’R</span></p>
+      <a class="lien-fleche" href="#journee" id="maint-lien" data-creneau="12h">Voir</a>
+    </div>
+  </section>
+
+  <section class="bande bande-sable" id="principe" aria-labelledby="titre-principe">
+    <div class="wrap">
+      <h2 id="titre-principe">Comment ça marche</h2>
+      <ol class="etapes">
+        <li><span class="etape-num" aria-hidden="true">1</span><h3>Récupérez votre clé</h3><p>Gratuite, en ligne ou à l’accueil de l’hôtel.</p></li>
+        <li><span class="etape-num" aria-hidden="true">2</span><h3>Votre premier verre est offert</h3><p>À L’Avant-Scène, le bar de l’hôtel.</p></li>
+        <li><span class="etape-num" aria-hidden="true">3</span><h3>Revenez quand vous voulez</h3><p>Plus vous venez, plus votre clé ouvre de portes.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="bande bande-beige" id="journee" aria-labelledby="titre-journee">
+    <div class="wrap">
+      <h2 id="titre-journee">Que faire, et à quelle heure ?</h2>
+
+      <div class="onglets" role="tablist" aria-label="Les heures de la journée">
+        <button class="onglet" role="tab" id="onglet-8h" data-creneau="8h" aria-controls="panneau-8h" aria-selected="false" tabindex="-1">8h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-10h" data-creneau="10h" aria-controls="panneau-10h" aria-selected="false" tabindex="-1">10h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-12h" data-creneau="12h" aria-controls="panneau-12h" aria-selected="true" tabindex="0">12h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-15h" data-creneau="15h" aria-controls="panneau-15h" aria-selected="false" tabindex="-1">15h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-18h" data-creneau="18h" aria-controls="panneau-18h" aria-selected="false" tabindex="-1">18h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-19h" data-creneau="19h" aria-controls="panneau-19h" aria-selected="false" tabindex="-1">19h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-jeudi" data-creneau="jeudi" aria-controls="panneau-jeudi" aria-selected="false" tabindex="-1">Jeudi<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+        <button class="onglet" role="tab" id="onglet-minuit" data-creneau="minuit" aria-controls="panneau-minuit" aria-selected="false" tabindex="-1">Minuit<span class="sr-only marque-maint" hidden>, maintenant</span></button>
+      </div>
+      <p class="legende">maintenant</p>
+
+      <div class="panneau" id="panneau-8h" role="tabpanel" aria-labelledby="onglet-8h" hidden>
+        <img src="img/piscine.jpg" alt="La piscine extérieure du Palm’s Pool Club, entourée de palmiers et d’oliviers" width="1336" height="890" loading="lazy" style="object-position: 56% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">8h</p>
+          <h3>Le run club</h3>
+          <p class="p-meta">Le samedi · départ de l’hôtel</p>
+          <p class="p-ligne">Une boucle dans Aix, puis le petit-déjeuner.</p>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-10h" role="tabpanel" aria-labelledby="onglet-10h" hidden>
+        <img src="img/hall.jpg" alt="Le hall de l’hôtel, ses canapés clairs et son fauteuil jaune" width="1336" height="893" loading="lazy" style="object-position: 40% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">10h</p>
+          <h3>Un café au milieu des œuvres</h3>
+          <p class="p-meta">Tous les jours · L’Avant-Scène</p>
+          <p class="p-ligne">150 œuvres d’art autour de vous. En semaine, on peut aussi y travailler.</p>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-12h" role="tabpanel" aria-labelledby="onglet-12h">
+        <img src="img/restaurant.jpg" alt="La salle du restaurant Atmosph’R, ses tables dressées et sa grande baie vitrée" width="1336" height="892" loading="lazy" style="object-position: 35% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">12h</p>
+          <h3>Le déj des voisins</h3>
+          <p class="p-meta">Du lundi au vendredi · Atmosph’R</p>
+          <p class="p-ligne">Servi en 45 minutes. Plat du jour dès 25 €.</p>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-15h" role="tabpanel" aria-labelledby="onglet-15h" hidden>
+        <img src="img/spa.jpg" alt="La piscine intérieure chauffée du spa" width="1336" height="891" loading="lazy" style="object-position: 55% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">15h</p>
+          <h3>Spa et piscine</h3>
+          <p class="p-meta">Tous les jours, 10h–20h · Spa</p>
+          <p class="p-ligne">Piscine chauffée, hammam et fitness.</p>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-18h" role="tabpanel" aria-labelledby="onglet-18h" hidden>
+        <img src="img/spa.jpg" alt="Les transats au bord de la piscine intérieure" width="1336" height="891" loading="lazy" style="object-position: 12% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">18h</p>
+          <h3>L’apéro</h3>
+          <p class="p-meta">Tous les soirs · L’Avant-Scène</p>
+          <p class="p-ligne">Le vendredi, spa after work de 18h à 20h.</p>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-19h" role="tabpanel" aria-labelledby="onglet-19h" hidden>
+        <img src="img/restaurant.jpg" alt="Une table ronde dressée devant la baie vitrée d’Atmosph’R" width="1336" height="892" loading="lazy" style="object-position: 82% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">19h</p>
+          <h3>Le dîner</h3>
+          <p class="p-meta">Tous les soirs, 19h–22h · Atmosph’R</p>
+          <p class="p-ligne">Le Grand Théâtre est à 3 minutes à pied.</p>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-jeudi" role="tabpanel" aria-labelledby="onglet-jeudi" hidden>
+        <img src="img/hall.jpg" alt="Le fauteuil jaune et les salons du hall" width="1336" height="893" loading="lazy" style="object-position: 60% 50%">
+        <div class="panneau-texte">
+          <p class="p-heure">Jeudi</p>
+          <h3>Les Jeudis Renaissance</h3>
+          <p class="p-meta">Chaque jeudi, dès 19h</p>
+          <p class="p-ligne">Un thème différent chaque semaine.</p>
+          <a class="lien-fleche" href="#jeudis">Voir les Jeudis</a>
+        </div>
+      </div>
+
+      <div class="panneau" id="panneau-minuit" role="tabpanel" aria-labelledby="onglet-minuit" hidden>
+        <img src="img/facade.jpg" alt="La façade de l’hôtel éclairée à la tombée de la nuit" width="1600" height="1200" loading="lazy" style="object-position: 80% 40%">
+        <div class="panneau-texte">
+          <p class="p-heure">Minuit</p>
+          <h3>Le dernier verre</h3>
+          <p class="p-meta">Tous les soirs, jusqu’à 00h30 · L’Avant-Scène</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="bande bande-nuit sur-nuit" id="visite" aria-labelledby="titre-visite">
+    <div class="wrap">
+      <h2 id="titre-visite">Visitez l’hôtel</h2>
+      <div class="visionneuse" id="visionneuse">
+        <canvas id="visite-toile" tabindex="0" aria-label="Vue immersive : Le hall. Flèches gauche et droite pour regarder autour."></canvas>
+        <img class="visite-repli" id="visite-repli" alt="" hidden>
+        <div class="points" id="points" aria-hidden="true"></div>
+        <div class="voile" id="voile" aria-hidden="true"></div>
+        <p class="piece-nom" id="piece-nom" aria-live="polite">Le hall</p>
+        <p class="indice" id="indice" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 9l-4 3 4 3"></path><path d="M17 9l4 3-4 3"></path><path d="M3 12h18"></path></svg>Glissez pour regarder</p>
+        <button class="tourner gauche" type="button" aria-label="Regarder à gauche"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"></path></svg></button>
+        <button class="tourner droite" type="button" aria-label="Regarder à droite"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"></path></svg></button>
+        <button class="suivante" type="button" id="piece-suivante">Pièce suivante <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg></button>
+      </div>
+      <ul class="sr-only" id="points-sr"></ul>
+      <div class="pieces" role="group" aria-label="Choisir une pièce">
+        <button class="piece" type="button" aria-pressed="false">L’entrée</button>
+        <button class="piece" type="button" aria-pressed="true">Le hall</button>
+        <button class="piece" type="button" aria-pressed="false">Atmosph’R</button>
+        <button class="piece" type="button" aria-pressed="false">Le spa</button>
+        <button class="piece" type="button" aria-pressed="false">Le Palm’s</button>
+      </div>
+      <p class="visite-app"><span class="bientot">Bientôt</span><span>La visite 3D à 360°, dans l’appli.</span></p>
+    </div>
+  </section>
+
+  <section class="bande bande-sable" id="semaine" aria-labelledby="titre-semaine">
+    <div class="wrap">
+      <h2 id="titre-semaine">Chaque semaine</h2>
+      <p class="chapo">Aujourd’hui est en jaune.</p>
+
+      <div class="table-scroll">
+        <table class="grille">
+          <caption class="sr-only">Les rendez-vous de la semaine au Renaissance</caption>
+          <thead>
+            <tr>
+              <th scope="col"><span class="sr-only">Rendez-vous</span></th>
+              <th scope="col" data-jour="1"><abbr title="lundi">L</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+              <th scope="col" data-jour="2"><abbr title="mardi">M</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+              <th scope="col" data-jour="3"><abbr title="mercredi">M</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+              <th scope="col" data-jour="4"><abbr title="jeudi">J</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+              <th scope="col" data-jour="5"><abbr title="vendredi">V</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+              <th scope="col" data-jour="6"><abbr title="samedi">S</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+              <th scope="col" data-jour="0"><abbr title="dimanche">D</abbr><span class="sr-only sr-auj" hidden>, aujourd’hui</span></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row"><span class="r-nom">Le déj des voisins</span><span class="r-info">12h · Atmosph’R</span></th>
+              <td data-jour="1"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="2"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="3"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="4"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="5"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="6"><span class="sr-only">non</span></td>
+              <td data-jour="0"><span class="sr-only">non</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="r-nom">Bureau au bar</span><span class="r-info">En journée · L’Avant-Scène</span></th>
+              <td data-jour="1"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="2"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="3"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="4"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="5"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="6"><span class="sr-only">non</span></td>
+              <td data-jour="0"><span class="sr-only">non</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="r-nom">Afterwork</span><span class="r-info">18h · au Palm’s l’été</span></th>
+              <td data-jour="1"><span class="sr-only">non</span></td>
+              <td data-jour="2"><span class="sr-only">non</span></td>
+              <td data-jour="3"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="4"><span class="sr-only">non</span></td>
+              <td data-jour="5"><span class="sr-only">non</span></td>
+              <td data-jour="6"><span class="sr-only">non</span></td>
+              <td data-jour="0"><span class="sr-only">non</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="r-nom">Les Jeudis Renaissance</span><span class="r-info">19h · un thème par semaine</span></th>
+              <td data-jour="1"><span class="sr-only">non</span></td>
+              <td data-jour="2"><span class="sr-only">non</span></td>
+              <td data-jour="3"><span class="sr-only">non</span></td>
+              <td data-jour="4"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="5"><span class="sr-only">non</span></td>
+              <td data-jour="6"><span class="sr-only">non</span></td>
+              <td data-jour="0"><span class="sr-only">non</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="r-nom">Spa after work</span><span class="r-info">18h–20h · spa et cocktail</span></th>
+              <td data-jour="1"><span class="sr-only">non</span></td>
+              <td data-jour="2"><span class="sr-only">non</span></td>
+              <td data-jour="3"><span class="sr-only">non</span></td>
+              <td data-jour="4"><span class="sr-only">non</span></td>
+              <td data-jour="5"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="6"><span class="sr-only">non</span></td>
+              <td data-jour="0"><span class="sr-only">non</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="r-nom">Run club</span><span class="r-info">8h · puis petit-déjeuner</span></th>
+              <td data-jour="1"><span class="sr-only">non</span></td>
+              <td data-jour="2"><span class="sr-only">non</span></td>
+              <td data-jour="3"><span class="sr-only">non</span></td>
+              <td data-jour="4"><span class="sr-only">non</span></td>
+              <td data-jour="5"><span class="sr-only">non</span></td>
+              <td data-jour="6"><span class="point"></span><span class="sr-only">oui</span></td>
+              <td data-jour="0"><span class="sr-only">non</span></td>
+            </tr>
+            <tr>
+              <th scope="row"><span class="r-nom">Brunch en famille</span><span class="r-info">12h–15h · hors été</span></th>
+              <td data-jour="1"><span class="sr-only">non</span></td>
+              <td data-jour="2"><span class="sr-only">non</span></td>
+              <td data-jour="3"><span class="sr-only">non</span></td>
+              <td data-jour="4"><span class="sr-only">non</span></td>
+              <td data-jour="5"><span class="sr-only">non</span></td>
+              <td data-jour="6"><span class="sr-only">non</span></td>
+              <td data-jour="0"><span class="point"></span><span class="sr-only">oui</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="bande bande-nuit sur-nuit" id="jeudis" aria-labelledby="titre-jeudis">
+    <div class="wrap">
+      <div class="jeudis-tete">
+        <div>
+          <h2 id="titre-jeudis">Les Jeudis Renaissance</h2>
+          <p class="chapo">Chaque jeudi soir, un thème différent. Sur réservation avec la clé.</p>
+        </div>
+        <p class="prochain" id="prochain-jeudi" hidden></p>
+      </div>
+
+      <div class="jeudis-grille">
+        <article class="jeudi" data-rang="1">
+          <p class="badge" hidden></p>
+          <p class="j-rang">1<sup>er</sup> jeudi</p>
+          <h3>Art</h3>
+          <p class="j-lieu">Hall et galerie</p>
+          <p>Visite des œuvres avec un artiste aixois.</p>
+        </article>
+        <article class="jeudi" data-rang="2">
+          <p class="badge" hidden></p>
+          <p class="j-rang">2<sup>e</sup> jeudi</p>
+          <h3>Goût</h3>
+          <p class="j-lieu">Atmosph’R</p>
+          <p>Atelier avec le chef, puis grande tablée.</p>
+        </article>
+        <article class="jeudi" data-rang="3">
+          <p class="badge" hidden></p>
+          <p class="j-rang">3<sup>e</sup> jeudi</p>
+          <h3>Son</h3>
+          <p class="j-lieu">Grande salle</p>
+          <p>DJ ou live d’artistes locaux. Tarif étudiant.</p>
+        </article>
+        <article class="jeudi" data-rang="4">
+          <p class="badge" hidden></p>
+          <p class="j-rang">4<sup>e</sup> jeudi</p>
+          <h3>Bien-être</h3>
+          <p class="j-lieu">Palm’s l’été, spa l’hiver</p>
+          <p>Yoga au coucher du soleil, puis mocktails.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="bande bande-sable" id="cle" aria-labelledby="titre-cle">
+    <div class="wrap">
+      <h2 id="titre-cle">La clé qui n’ouvre aucune chambre</h2>
+      <p class="chapo">Elle est gratuite et elle ouvre tout le reste. Plus vous venez, plus elle vous offre.</p>
+      <ol class="parcours">
+        <li>
+          <h3>Voisin</h3>
+          <p class="n-quand">Dès l’inscription</p>
+          <ul><li>Un verre offert</li><li>Le programme du mois</li></ul>
+        </li>
+        <li>
+          <h3>Habitué</h3>
+          <p class="n-quand">Après 3 passages</p>
+          <ul><li>Tarif voisin au spa, au brunch et au déjeuner</li><li>Une place pour un ami aux Jeudis</li></ul>
+        </li>
+        <li>
+          <h3>Initié</h3>
+          <p class="n-quand">Après 8 passages</p>
+          <ul><li>Une soirée dans une chambre de l’hôtel</li><li>Un dîner à la table du chef</li></ul>
+        </li>
+      </ol>
+      <p class="parcours-note">Un café, un déjeuner, un spa : chaque passage compte.</p>
+    </div>
+  </section>
+
+  <section class="bande bande-nuit sur-nuit" id="inscription" aria-labelledby="titre-inscription">
+    <div class="wrap inscription-grille">
+      <div class="inscription-titre">
+        <h2 id="titre-inscription">Récupérez votre clé</h2>
+        <p class="chapo">En une minute.</p>
+      </div>
+
+      <div class="inscription-carte">
+        <div class="scene" id="scene">
+          <div class="carte-cle" id="carte-cle" role="img" aria-label="Aperçu de votre clé">
+            <img class="cle-r" src="img/r-anthracite.png" alt="" width="343" height="317">
+            <p class="cle-haut"><span class="cle-marque"><img src="img/r-anthracite.png" alt="" width="343" height="317">Renaissance</span><span class="cle-etat" id="cle-etat">Aperçu</span></p>
+            <div class="cle-milieu"><p class="cle-nom" id="cle-nom">Votre prénom</p><p class="cle-signature">tout le reste est à vous.</p></div>
+            <p class="cle-bas"><span class="cle-niveau">Niveau Voisin</span><span class="cle-numero" id="cle-numero">N° 13100-····</span></p>
+          </div>
+          <div class="encodeur" id="encodeur" aria-hidden="true">
+            <span class="encodeur-marque"><img src="img/r-blanc.png" alt="" width="343" height="317"><span id="encodeur-texte">Encodage</span></span>
+            <span class="voyant" id="voyant"></span>
+          </div>
+        </div>
+
+        <div class="confirmation" id="confirmation" hidden>
+          <h3 id="conf-titre" tabindex="-1">Bienvenue !</h3>
+          <p class="conf-verre">Votre premier verre vous attend à L’Avant-Scène.</p>
+          <p id="conf-jeudi"></p>
+          <p class="conf-app"><span class="bientot">Bientôt</span><span id="conf-app-texte">Votre clé dans Apple Wallet, avec l’appli.</span></p>
+          <p class="conf-physique">Vous préférez une vraie carte ? <strong>Elle vous attend à l’accueil de l’hôtel.</strong></p>
+          <button class="lien-bouton" type="button" id="autre-cle">Créer une autre clé</button>
+        </div>
+      </div>
+
+      <form class="formulaire" id="form-cle" novalidate>
+        <div class="champs">
+          <div class="champ">
+            <label for="prenom">Prénom</label>
+            <input type="text" id="prenom" name="prenom" autocomplete="given-name" maxlength="24" aria-describedby="prenom-erreur" required>
+            <p class="message-erreur" id="prenom-erreur" hidden></p>
+          </div>
+          <div class="champ">
+            <label for="email">Adresse e-mail</label>
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="email-erreur" required>
+            <p class="message-erreur" id="email-erreur" hidden></p>
+          </div>
+          <fieldset class="champ">
+            <legend>Vos envies (facultatif)</legend>
+            <div class="puces">
+              <label class="puce"><input type="checkbox" id="envie-art" name="envie" value="1"><span>Art</span></label>
+              <label class="puce"><input type="checkbox" id="envie-gout" name="envie" value="2"><span>Goût</span></label>
+              <label class="puce"><input type="checkbox" id="envie-son" name="envie" value="3"><span>Son</span></label>
+              <label class="puce"><input type="checkbox" id="envie-bien-etre" name="envie" value="4"><span>Bien-être</span></label>
+            </div>
+          </fieldset>
+          <button class="bouton bouton-jaune" type="submit" id="bouton-creer">Créer ma clé</button>
+          <p class="demo" id="mention">En créant votre clé, vous recevez le programme par e-mail. Désinscription en un clic.</p>
+        </div>
+      </form>
+      <p class="sr-only" role="status" id="statut"></p>
+    </div>
+  </section>
+
+  <section class="bande bande-beige" id="infos" aria-labelledby="titre-infos">
+    <div class="wrap">
+      <h2 id="titre-infos">Venir au Renaissance</h2>
+      <div class="infos-grille">
+        <div>
+          <h3>Adresse</h3>
+          <p class="fort">320 avenue Wolfgang Amadeus Mozart, Aix-en-Provence</p>
+          <p>À 7 minutes à pied du centre.</p>
+        </div>
+        <div>
+          <h3>Parking</h3>
+          <p class="fort">80 places souterraines</p>
+        </div>
+        <div>
+          <h3>Horaires</h3>
+          <dl class="horaires">
+            <div><dt>L’Avant-Scène</dt><dd>10h–00h30</dd></div>
+            <div><dt>Atmosph’R</dt><dd>12h–14h30 · 19h–22h</dd></div>
+            <div><dt>Spa</dt><dd>10h–20h</dd></div>
+            <div><dt>Palm’s Pool Club</dt><dd>l’été, dès 10h</dd></div>
+          </dl>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="pied sur-nuit">
+  <div class="wrap pied-in">
+    <img src="img/logo-blanc.png" alt="Renaissance Aix-en-Provence Hotel" width="640" height="322">
+    <p class="signature">tout le reste est à vous.</p>
+    <p class="pied-note">Projet étudiant EFAP pour la Battle Renaissance, octobre 2026. Maquette non officielle. Photos : Renaissance Aix-en-Provence Hotel.</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function () {
+  document.documentElement.lang = 'fr';
+  var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var JEUDIS = {
+    1: { nom: 'Art', lieu: 'dans le hall' },
+    2: { nom: 'Goût', lieu: 'à Atmosph’R' },
+    3: { nom: 'Son', lieu: 'dans la grande salle' },
+    4: { nom: 'Bien-être', lieu: 'au spa ou au Palm’s' }
+  };
+  function estEte(mois) { return mois >= 4 && mois <= 8; }
+  function formatJour(d) { return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); }
+
+  /* Le prochain jeudi d'un rang donné (1 à 4) ; sans rang, le prochain jeudi programmé (les 5es jeudis n'en ont pas). */
+  function jeudiDuRang(depuis, rang) {
+    var d = new Date(depuis.getTime());
+    d.setHours(12, 0, 0, 0);
+    d.setDate(d.getDate() + ((4 - d.getDay() + 7) % 7));
+    for (var i = 0; i < 16; i++) {
+      var r = Math.ceil(d.getDate() / 7);
+      if (rang ? r === rang : r <= 4) return { date: new Date(d.getTime()), rang: r };
+      d.setDate(d.getDate() + 7);
+    }
+    return null;
+  }
+
+  /* Ce qu'on peut faire au Renaissance à l'heure donnée. */
+  function creneauDe(d) {
+    var t = d.getHours() * 60 + d.getMinutes();
+    var j = d.getDay();
+    var ete = estEte(d.getMonth());
+    if (t < 30) return { id: 'minuit', texte: 'Le dernier verre à L’Avant-Scène, jusqu’à 00h30' };
+    if (t < 10 * 60) {
+      if (j === 6) return { id: '8h', prochain: t < 8 * 60, texte: t < 8 * 60 ? 'Le run club part de l’hôtel à 8h' : 'Le run club, au départ de l’hôtel' };
+      return { id: '10h', prochain: true, texte: 'Un café au milieu des œuvres, dès 10h' };
+    }
+    if (t < 12 * 60) return { id: '10h', texte: 'Un café au milieu des œuvres, à L’Avant-Scène' };
+    if (t < 15 * 60) {
+      if (j === 0 && !ete) return { id: '12h', texte: 'Le brunch en famille à Atmosph’R, jusqu’à 15h' };
+      if (j === 0 || j === 6) return { id: '12h', texte: 'Le déjeuner à Atmosph’R, jusqu’à 14h30' };
+      return { id: '12h', texte: 'Le déj des voisins à Atmosph’R' };
+    }
+    if (t < 18 * 60) return { id: '15h', texte: 'Le spa et la piscine, jusqu’à 20h' };
+    if (t < 19 * 60) {
+      if (j === 5) return { id: '18h', texte: 'Le spa after work, jusqu’à 20h' };
+      if (j === 3) return { id: '18h', texte: ete ? 'La Golden Hour au Palm’s Pool Club' : 'L’afterwork à L’Avant-Scène' };
+      return { id: '18h', texte: 'L’apéro à L’Avant-Scène' };
+    }
+    if (t < 22 * 60) {
+      if (j === 4) {
+        var rang = Math.ceil(d.getDate() / 7);
+        return { id: 'jeudi', texte: 'Les Jeudis Renaissance, ce soir' + (JEUDIS[rang] ? ' : ' + JEUDIS[rang].nom : '') };
+      }
+      return { id: '19h', texte: 'Le dîner à Atmosph’R, jusqu’à 22h' };
+    }
+    return { id: 'minuit', texte: 'Le dernier verre à L’Avant-Scène, jusqu’à 00h30' };
+  }
+
+  /* Onglets de la journée */
+  var onglets = Array.prototype.slice.call(document.querySelectorAll('.onglet'));
+  function choisir(id, focus) {
+    onglets.forEach(function (b) {
+      var actif = b.getAttribute('data-creneau') === id;
+      b.setAttribute('aria-selected', actif ? 'true' : 'false');
+      b.tabIndex = actif ? 0 : -1;
+      document.getElementById('panneau-' + b.getAttribute('data-creneau')).hidden = !actif;
+      if (actif && focus) b.focus();
+    });
+  }
+  onglets.forEach(function (b, i) {
+    b.addEventListener('click', function () { choisir(b.getAttribute('data-creneau')); });
+    b.addEventListener('keydown', function (e) {
+      var k = null;
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') k = (i + 1) % onglets.length;
+      else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') k = (i - 1 + onglets.length) % onglets.length;
+      else if (e.key === 'Home') k = 0;
+      else if (e.key === 'End') k = onglets.length - 1;
+      if (k !== null) { e.preventDefault(); choisir(onglets[k].getAttribute('data-creneau'), true); }
+    });
+  });
+
+  /* Bandeau "en ce moment" */
+  var maintHeure = document.getElementById('maint-heure');
+  var maintEtiquette = document.getElementById('maint-etiquette');
+  var maintTexte = document.getElementById('maint-texte');
+  var maintLien = document.getElementById('maint-lien');
+  function majMaintenant() {
+    var d = new Date();
+    var c = creneauDe(d);
+    maintHeure.textContent = d.getHours() + 'h' + String(d.getMinutes()).padStart(2, '0');
+    maintEtiquette.textContent = c.prochain ? 'Bientôt' : 'En ce moment';
+    maintTexte.textContent = c.texte;
+    maintLien.setAttribute('data-creneau', c.id);
+    onglets.forEach(function (b) {
+      var estMaintenant = b.getAttribute('data-creneau') === c.id;
+      b.classList.toggle('est-maintenant', estMaintenant);
+      b.querySelector('.marque-maint').hidden = !estMaintenant;
+    });
+    return c;
+  }
+  choisir(majMaintenant().id);
+  setInterval(majMaintenant, 30000);
+  maintLien.addEventListener('click', function () { choisir(maintLien.getAttribute('data-creneau')); });
+
+  /* La semaine : la colonne du jour */
+  var aujourdhui = new Date().getDay();
+  document.querySelectorAll('.grille [data-jour="' + aujourdhui + '"]').forEach(function (el) { el.classList.add('aujourdhui'); });
+  var srAuj = document.querySelector('.grille thead [data-jour="' + aujourdhui + '"] .sr-auj');
+  if (srAuj) srAuj.hidden = false;
+
+  /* Les Jeudis : le prochain */
+  var prochain = jeudiDuRang(new Date());
+  if (prochain && JEUDIS[prochain.rang]) {
+    var carteJeudi = document.querySelector('.jeudi[data-rang="' + prochain.rang + '"]');
+    carteJeudi.classList.add('prochain-jeudi');
+    var badge = carteJeudi.querySelector('.badge');
+    badge.textContent = 'Prochain · ' + prochain.date.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+    badge.hidden = false;
+    var ligne = document.getElementById('prochain-jeudi');
+    ligne.appendChild(document.createTextNode('Prochain Jeudi : '));
+    var fort = document.createElement('strong');
+    fort.textContent = JEUDIS[prochain.rang].nom + ', ' + formatJour(prochain.date);
+    ligne.appendChild(fort);
+    ligne.hidden = false;
+  }
+
+  /* Inscription : la clé est enregistrée dans Supabase (table « cles »).
+     Sans adresse ni clé Supabase, le site reste en mode démo. */
+  var SUPABASE_URL = '';
+  var SUPABASE_KEY = '';
+  var provenance = (new URLSearchParams(location.search).get('src') || 'direct').slice(0, 40);
+  if (!SUPABASE_URL) document.getElementById('mention').textContent = 'Démo : rien n’est enregistré.';
+  function enregistrer(fiche) {
+    if (!SUPABASE_URL) return Promise.resolve('ok');
+    return fetch(SUPABASE_URL.replace(/\/$/, '') + '/rest/v1/cles', {
+      method: 'POST',
+      headers: { 'apikey': SUPABASE_KEY, 'Authorization': 'Bearer ' + SUPABASE_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+      body: JSON.stringify(fiche)
+    }).then(function (r) {
+      if (r.ok) return 'ok';
+      return r.status === 409 ? 'deja' : 'erreur';
+    }).catch(function () { return 'erreur'; });
+  }
+  var form = document.getElementById('form-cle');
+  var prenom = document.getElementById('prenom');
+  var email = document.getElementById('email');
+  var boutonCreer = document.getElementById('bouton-creer');
+  var scene = document.getElementById('scene');
+  var carte = document.getElementById('carte-cle');
+  var cleNom = document.getElementById('cle-nom');
+  var cleNumero = document.getElementById('cle-numero');
+  var cleEtat = document.getElementById('cle-etat');
+  var encodeur = document.getElementById('encodeur');
+  var encodeurTexte = document.getElementById('encodeur-texte');
+  var voyant = document.getElementById('voyant');
+  var confirmation = document.getElementById('confirmation');
+  var confTitre = document.getElementById('conf-titre');
+  var confJeudi = document.getElementById('conf-jeudi');
+  var statut = document.getElementById('statut');
+  var android = /android/i.test(navigator.userAgent);
+  document.getElementById('conf-app-texte').textContent = 'Votre clé dans ' + (android ? 'Google Wallet' : 'Apple Wallet') + ', avec l’appli.';
+
+  function anim(el, images, options) {
+    if (reduit || !el.animate) return Promise.resolve();
+    var a = el.animate(images, options);
+    if (a.finished) return a.finished.catch(function () {});
+    return new Promise(function (r) { a.onfinish = r; });
+  }
+  function pause(ms) { return new Promise(function (r) { setTimeout(r, reduit ? 0 : ms); }); }
+  function annulerAnimations() {
+    [carte, encodeur, voyant, cleEtat, confirmation].forEach(function (el) {
+      if (el.getAnimations) el.getAnimations().forEach(function (a) { a.cancel(); });
+    });
+  }
+
+  function erreur(champ, message) {
+    var el = document.getElementById(champ.id + '-erreur');
+    if (message) {
+      el.textContent = message;
+      el.hidden = false;
+      champ.setAttribute('aria-invalid', 'true');
+      return false;
+    }
+    el.hidden = true;
+    champ.removeAttribute('aria-invalid');
+    return true;
+  }
+  function majApercu() {
+    cleNom.textContent = prenom.value.trim() || 'Votre prénom';
+  }
+  prenom.addEventListener('input', function () { majApercu(); if (prenom.value.trim()) erreur(prenom, ''); });
+  email.addEventListener('input', function () { if (email.getAttribute('aria-invalid')) erreur(email, ''); });
+
+  async function creerCle(nom, numero, texteJeudi) {
+    boutonCreer.disabled = true;
+    boutonCreer.textContent = 'Création de votre clé…';
+
+    var r = scene.getBoundingClientRect();
+    if (r.top < 70 || r.bottom > window.innerHeight) {
+      scene.scrollIntoView({ behavior: reduit ? 'auto' : 'smooth', block: 'center' });
+      await pause(550);
+    }
+
+    /* 1. L'encodeur arrive, la carte plonge dedans */
+    scene.classList.add('encodage');
+    encodeurTexte.textContent = 'Encodage';
+    await anim(encodeur, [{ transform: 'translateY(100%)' }, { transform: 'translateY(0)' }], { duration: 360, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
+    await anim(carte, [{ transform: 'translateY(0)' }, { transform: 'translateY(46%)' }], { duration: 420, easing: 'cubic-bezier(.55,0,.8,.2)', fill: 'forwards' });
+
+    /* 2. Encodage : la clé prend votre nom pendant que le voyant clignote */
+    cleNom.textContent = nom;
+    cleEtat.textContent = 'Activée';
+    cleEtat.classList.add('ok');
+    await anim(voyant, [
+      { backgroundColor: '#5a585e' }, { backgroundColor: '#e8af00' }, { backgroundColor: '#5a585e' },
+      { backgroundColor: '#e8af00' }, { backgroundColor: '#5a585e' }, { backgroundColor: '#e8af00' }
+    ], { duration: 900, easing: 'steps(6, end)', fill: 'forwards' });
+    encodeurTexte.textContent = 'Clé activée';
+    await pause(250);
+
+    /* 3. La carte ressort, l'encodeur repart */
+    await anim(carte, [{ transform: 'translateY(46%)' }, { transform: 'translateY(-7%)', offset: 0.7 }, { transform: 'translateY(0)' }], { duration: 640, easing: 'cubic-bezier(.2,.8,.2,1)', fill: 'forwards' });
+    anim(encodeur, [{ transform: 'translateY(0)' }, { transform: 'translateY(100%)' }], { duration: 320, easing: 'ease-in', fill: 'forwards' }).then(function () {
+      scene.classList.remove('encodage');
+    });
+
+    /* 4. Reflet, halo et numéro qui défile */
+    carte.classList.add('active');
+    anim(carte, [
+      { boxShadow: '0 0 0 0 rgba(232, 175, 0, 0.7), 0 28px 50px -24px rgba(0, 0, 0, 0.6)' },
+      { boxShadow: '0 0 0 26px rgba(232, 175, 0, 0), 0 28px 50px -24px rgba(0, 0, 0, 0.6)' }
+    ], { duration: 900, easing: 'ease-out' });
+    anim(cleEtat, [{ transform: 'scale(0.6)' }, { transform: 'scale(1.15)', offset: 0.6 }, { transform: 'scale(1)' }], { duration: 420, easing: 'ease-out' });
+    if (!reduit) {
+      for (var i = 0; i < 12; i++) {
+        cleNumero.textContent = 'N° 13100-' + String(Math.floor(Math.random() * 9000) + 1000);
+        await pause(45);
+      }
+    }
+    cleNumero.textContent = 'N° 13100-' + numero;
+    carte.setAttribute('aria-label', 'Votre clé au nom de ' + nom + ', niveau Voisin, numéro 13100-' + numero);
+    if (reduit) scene.classList.remove('encodage');
+
+    /* 5. La confirmation */
+    confTitre.textContent = 'Bienvenue, ' + nom + ' !';
+    confJeudi.textContent = texteJeudi;
+    confJeudi.hidden = !texteJeudi;
+    form.hidden = true;
+    confirmation.hidden = false;
+    anim(confirmation, [{ opacity: 0, transform: 'translateY(14px)' }, { opacity: 1, transform: 'translateY(0)' }], { duration: 420, easing: 'ease-out' });
+    statut.textContent = 'Votre clé est créée.';
+    confTitre.focus({ preventScroll: true });
+    boutonCreer.disabled = false;
+    boutonCreer.textContent = 'Créer ma clé';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    if (boutonCreer.disabled) return;
+    var nom = prenom.value.trim();
+    var okPrenom = erreur(prenom, nom ? '' : 'Indiquez votre prénom.');
+    var okEmail = erreur(email, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.value.trim()) ? '' : 'Indiquez une adresse e-mail valide, par exemple camille@exemple.fr.');
+    if (!okPrenom) { prenom.focus(); return; }
+    if (!okEmail) { email.focus(); return; }
+
+    var envies = Array.prototype.slice.call(form.querySelectorAll('input[name="envie"]:checked')).map(function (c) { return Number(c.value); });
+    var rang = envies.length ? envies[0] : null;
+    var jeudi = jeudiDuRang(new Date(), rang);
+    var texteJeudi = '';
+    if (jeudi && JEUDIS[jeudi.rang]) {
+      texteJeudi = (rang ? 'Votre premier Jeudi ' + JEUDIS[jeudi.rang].nom + ' : ' : 'Prochain Jeudi, ' + JEUDIS[jeudi.rang].nom + ' : ') + formatJour(jeudi.date) + ', ' + JEUDIS[jeudi.rang].lieu + '.';
+    }
+    var numero = String(Math.floor(Math.random() * 9000) + 1000);
+    boutonCreer.disabled = true;
+    boutonCreer.textContent = 'Création de votre clé…';
+    enregistrer({ prenom: nom, email: email.value.trim().toLowerCase(), envies: envies, numero: '13100-' + numero, source: provenance })
+      .then(function (res) {
+        if (res === 'ok') return creerCle(nom, numero, texteJeudi);
+        boutonCreer.disabled = false;
+        boutonCreer.textContent = 'Créer ma clé';
+        if (res === 'deja') { erreur(email, 'Cette adresse a déjà sa clé. Elle vous attend aussi à l’accueil.'); email.focus(); }
+        else { erreur(email, 'La clé n’a pas pu être créée. Vérifiez votre connexion et réessayez.'); }
+      });
+  });
+
+  /* La visite immersive.
+     Chaque photo est enroulée sur un arc de cylindre de 140° autour du visiteur ;
+     on fait tourner la caméra en glissant. Sans WebGL, on affiche la photo à plat. */
+  var PIECES = [
+    { id: 'entree', nom: 'L’entrée', src: 'img/facade.jpg', w: 1600, h: 1200, points: [
+      { u: 0.09, v: 0.83, t: 'L’entrée · 320 av. Mozart' },
+      { u: 0.84, v: 0.40, t: 'Ouvert aux Aixois, du matin à minuit' } ] },
+    { id: 'hall', nom: 'Le hall', src: 'img/hall.jpg', w: 1336, h: 893, points: [
+      { u: 0.57, v: 0.68, t: '10h · Un café au milieu des œuvres' },
+      { u: 0.25, v: 0.47, t: 'Jeudi Art · visite des œuvres' } ] },
+    { id: 'atmosphr', nom: 'Atmosph’R', src: 'img/restaurant.jpg', w: 1336, h: 892, points: [
+      { u: 0.39, v: 0.67, t: '12h · Le déj des voisins' },
+      { u: 0.81, v: 0.62, t: '19h · Le dîner' } ] },
+    { id: 'spa', nom: 'Le spa', src: 'img/spa.jpg', w: 1336, h: 891, points: [
+      { u: 0.50, v: 0.81, t: '15h · Piscine chauffée' },
+      { u: 0.12, v: 0.55, t: 'Vendredi · Spa after work' } ] },
+    { id: 'palms', nom: 'Le Palm’s', src: 'img/piscine.jpg', w: 1336, h: 890, points: [
+      { u: 0.58, v: 0.50, t: 'L’été · Palm’s Pool Club' },
+      { u: 0.84, v: 0.56, t: 'Jeudi Bien-être · yoga' } ] }
+  ];
+  var visionneuse = document.getElementById('visionneuse');
+  var toile = document.getElementById('visite-toile');
+  var repli = document.getElementById('visite-repli');
+  var couche = document.getElementById('points');
+  var voile = document.getElementById('voile');
+  var indice = document.getElementById('indice');
+  var nomPiece = document.getElementById('piece-nom');
+  var pointsSr = document.getElementById('points-sr');
+  var boutonsPiece = Array.prototype.slice.call(document.querySelectorAll('.piece'));
+  var courant = 1;
+  var points = [];
+  var allerA = function () {};
+
+  function creerPoints(p) {
+    couche.innerHTML = '';
+    pointsSr.innerHTML = '';
+    points = p.points.map(function (pt) {
+      var el = document.createElement('div');
+      el.className = 'repere';
+      el.style.opacity = '0';
+      var dedans = document.createElement('div');
+      dedans.className = 'repere-in';
+      var rond = document.createElement('span');
+      rond.className = 'repere-rond';
+      var texte = document.createElement('span');
+      texte.className = 'repere-texte';
+      texte.textContent = pt.t;
+      dedans.appendChild(rond);
+      dedans.appendChild(texte);
+      el.appendChild(dedans);
+      couche.appendChild(el);
+      var li = document.createElement('li');
+      li.textContent = pt.t;
+      pointsSr.appendChild(li);
+      return { u: pt.u, v: pt.v, el: el };
+    });
+  }
+  function poserPoint(o, x, y, largeur, visible) {
+    o.el.style.opacity = visible ? '1' : '0';
+    o.el.style.transform = 'translate(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px)';
+    o.el.classList.toggle('a-gauche', x > largeur * 0.56);
+  }
+  function majBoutons(i) {
+    boutonsPiece.forEach(function (b, k) { b.setAttribute('aria-pressed', k === i ? 'true' : 'false'); });
+  }
+  function majPiece(p) {
+    nomPiece.textContent = p.nom;
+    toile.setAttribute('aria-label', 'Vue immersive : ' + p.nom + '. Flèches gauche et droite pour regarder autour.');
+  }
+  function masquerIndice() { indice.classList.add('cache'); }
+  function fondu(o, ms) {
+    return anim(voile, [{ opacity: getComputedStyle(voile).opacity }, { opacity: o }], { duration: ms, easing: 'ease', fill: 'forwards' }).then(function () {
+      voile.style.opacity = String(o);
+      if (voile.getAnimations) voile.getAnimations().forEach(function (a) { a.cancel(); });
+    });
+  }
+
+  /* Repli : la photo à plat, les points posés dessus */
+  function placerRepli() {
+    var p = PIECES[courant];
+    var W = visionneuse.clientWidth, H = visionneuse.clientHeight;
+    var s = Math.max(W / p.w, H / p.h);
+    var ox = (W - p.w * s) / 2, oy = (H - p.h * s) / 2;
+    points.forEach(function (o) {
+      var x = ox + o.u * p.w * s, y = oy + o.v * p.h * s;
+      poserPoint(o, x, y, W, x > 8 && x < W - 8 && y > 8 && y < H - 8);
+    });
+  }
+  function demarrerRepli() {
+    toile.hidden = true;
+    indice.hidden = true;
+    document.querySelectorAll('.tourner').forEach(function (b) { b.hidden = true; });
+    repli.hidden = false;
+    voile.style.opacity = '0';
+    allerA = function (i) {
+      courant = i;
+      var p = PIECES[i];
+      repli.onload = placerRepli;
+      repli.src = p.src;
+      repli.alt = p.nom;
+      majBoutons(i);
+      majPiece(p);
+      creerPoints(p);
+      if (repli.complete) placerRepli();
+    };
+    allerA(courant);
+    window.addEventListener('resize', placerRepli);
+  }
+
+  /* 3D : la photo enroulée autour du visiteur */
+  function demarrer3d() {
+    var T = window.THREE;
+    var rendu = new T.WebGLRenderer({ canvas: toile, antialias: true });
+    rendu.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    rendu.outputEncoding = T.sRGBEncoding;
+    rendu.setClearColor(0x2b2a2d, 1);
+    var scene3 = new T.Scene();
+    var camera = new T.PerspectiveCamera(60, 1, 0.1, 100);
+    camera.rotation.order = 'YXZ';
+    var R = 10;
+    var ARC = T.MathUtils.degToRad(140);
+    var chargeur = new T.TextureLoader();
+    var textures = {};
+    var maillage = null;
+    var hauteur = 10;
+    var lacet = 0, tangage = 0, vitesse = 0;
+    var fovBase = 60, fov = 60, fovCible = 60;
+    var glisse = false, px = 0, py = 0, dernierContact = -1e9;
+    var visible = false, raf = 0, enCours = false;
+    var v3 = new T.Vector3();
+
+    function charger(i) {
+      var p = PIECES[i];
+      if (textures[p.id]) return Promise.resolve(textures[p.id]);
+      return new Promise(function (ok, ko) {
+        chargeur.load(p.src, function (tex) {
+          tex.encoding = T.sRGBEncoding;
+          tex.generateMipmaps = false;
+          tex.minFilter = T.LinearFilter;
+          tex.anisotropy = rendu.capabilities.getMaxAnisotropy();
+          textures[p.id] = tex;
+          ok(tex);
+        }, undefined, ko);
+      });
+    }
+    function construire(p, tex) {
+      if (maillage) {
+        scene3.remove(maillage);
+        maillage.geometry.dispose();
+        maillage.material.dispose();
+      }
+      hauteur = R * ARC / (p.w / p.h);
+      var geo = new T.CylinderGeometry(R, R, hauteur, 120, 1, true, Math.PI - ARC / 2, ARC);
+      geo.scale(-1, 1, 1);
+      maillage = new T.Mesh(geo, new T.MeshBasicMaterial({ map: tex }));
+      scene3.add(maillage);
+    }
+    function dimensionner() {
+      var w = visionneuse.clientWidth, h = visionneuse.clientHeight;
+      if (!w || !h) return;
+      var aspect = w / h;
+      var maxV = 2 * Math.atan((hauteur / 2) / R);
+      var vfov = Math.min(T.MathUtils.degToRad(aspect < 1 ? 66 : 58), maxV * 0.94);
+      var hfov = 2 * Math.atan(Math.tan(vfov / 2) * aspect);
+      if (hfov > ARC * 0.9) {
+        hfov = ARC * 0.9;
+        vfov = 2 * Math.atan(Math.tan(hfov / 2) / aspect);
+      }
+      fovBase = T.MathUtils.radToDeg(vfov);
+      if (!enCours) fovCible = fovBase;
+      camera.aspect = aspect;
+      rendu.setSize(w, h, false);
+    }
+    function borner() {
+      var vf = T.MathUtils.degToRad(fov);
+      var hf = 2 * Math.atan(Math.tan(vf / 2) * camera.aspect);
+      var limite = Math.max(0, (ARC - hf) / 2 - 0.01);
+      if (lacet > limite) { lacet = limite; vitesse = 0; }
+      if (lacet < -limite) { lacet = -limite; vitesse = 0; }
+      var maxV = 2 * Math.atan((hauteur / 2) / R);
+      var limiteT = Math.max(0, (maxV - vf) / 2 * 0.8);
+      if (tangage > limiteT) tangage = limiteT;
+      if (tangage < -limiteT) tangage = -limiteT;
+      return limite;
+    }
+    function placerPoints() {
+      var w = visionneuse.clientWidth, h = visionneuse.clientHeight;
+      points.forEach(function (o) {
+        var th = Math.PI - ARC / 2 + o.u * ARC;
+        v3.set(-R * Math.sin(th), (0.5 - o.v) * hauteur, R * Math.cos(th));
+        v3.project(camera);
+        var x = (v3.x + 1) / 2 * w, y = (1 - v3.y) / 2 * h;
+        poserPoint(o, x, y, w, v3.z < 1 && x > 8 && x < w - 8 && y > 8 && y < h - 8);
+      });
+    }
+    function boucle(t) {
+      raf = 0;
+      if (!maillage) return;
+      var limite = borner();
+      if (!glisse) {
+        if (Math.abs(vitesse) > 0.00004) {
+          lacet += vitesse;
+          vitesse *= 0.93;
+        } else if (!reduit && t - dernierContact > 3500) {
+          var cible = limite * 0.55 * Math.sin(t / 2800);
+          lacet += (cible - lacet) * 0.015;
+        }
+        tangage *= 0.97;
+      }
+      fov += (fovCible - fov) * (reduit ? 1 : 0.09);
+      camera.fov = fov;
+      camera.updateProjectionMatrix();
+      borner();
+      camera.rotation.y = lacet;
+      camera.rotation.x = tangage;
+      rendu.render(scene3, camera);
+      placerPoints();
+      var encore = !reduit || glisse || Math.abs(vitesse) > 0.00004 || Math.abs(fovCible - fov) > 0.01;
+      if (visible && encore) raf = requestAnimationFrame(boucle);
+    }
+    function lancer() { if (!raf) raf = requestAnimationFrame(boucle); }
+
+    toile.addEventListener('pointerdown', function (e) {
+      glisse = true;
+      vitesse = 0;
+      px = e.clientX;
+      py = e.clientY;
+      dernierContact = performance.now();
+      try { toile.setPointerCapture(e.pointerId); } catch (err) {}
+      masquerIndice();
+      lancer();
+    });
+    toile.addEventListener('pointermove', function (e) {
+      if (!glisse) return;
+      var k = T.MathUtils.degToRad(fov) / (visionneuse.clientHeight || 1);
+      var dx = e.clientX - px, dy = e.clientY - py;
+      px = e.clientX;
+      py = e.clientY;
+      lacet += dx * k;
+      vitesse = dx * k;
+      if (e.pointerType === 'mouse') tangage += dy * k;
+      dernierContact = performance.now();
+    });
+    function lacher() {
+      glisse = false;
+      dernierContact = performance.now();
+      lancer();
+    }
+    toile.addEventListener('pointerup', lacher);
+    toile.addEventListener('pointercancel', lacher);
+    function pousser(sens) {
+      vitesse = 0.035 * sens;
+      masquerIndice();
+      dernierContact = performance.now();
+      lancer();
+    }
+    toile.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') pousser(1);
+      else if (e.key === 'ArrowRight') pousser(-1);
+      else return;
+      e.preventDefault();
+    });
+    document.querySelector('.tourner.gauche').addEventListener('click', function () { pousser(1); });
+    document.querySelector('.tourner.droite').addEventListener('click', function () { pousser(-1); });
+
+    function allerA3d(i) {
+      if (enCours) return;
+      enCours = true;
+      majBoutons(i);
+      var sortie = Promise.resolve();
+      if (maillage && !reduit) {
+        fovCible = fovBase * 0.78;
+        lancer();
+        sortie = fondu(1, 300);
+      }
+      sortie.then(function () { return charger(i); }).then(function (tex) {
+        courant = i;
+        var p = PIECES[i];
+        construire(p, tex);
+        dimensionner();
+        lacet = 0;
+        tangage = 0;
+        vitesse = 0;
+        fov = reduit ? fovBase : fovBase * 0.84;
+        fovCible = fovBase;
+        creerPoints(p);
+        majPiece(p);
+        lancer();
+        return fondu(0, reduit ? 0 : 450);
+      }).then(function () {
+        enCours = false;
+        charger((i + 1) % PIECES.length).catch(function () {});
+      }).catch(function () {
+        enCours = false;
+        visible = false;
+        demarrerRepli();
+      });
+    }
+    allerA = allerA3d;
+
+    var premier = true;
+    function devientVisible() {
+      visible = true;
+      if (premier) { premier = false; allerA3d(courant); }
+      else lancer();
+    }
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entrees) {
+        entrees.forEach(function (en) {
+          if (en.isIntersecting) devientVisible();
+          else visible = false;
+        });
+      }, { rootMargin: '200px 0px' }).observe(visionneuse);
+    } else {
+      devientVisible();
+    }
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(function () { dimensionner(); lancer(); }).observe(visionneuse);
+    } else {
+      window.addEventListener('resize', function () { dimensionner(); lancer(); });
+    }
+    dimensionner();
+  }
+
+  boutonsPiece.forEach(function (b, i) { b.addEventListener('click', function () { allerA(i); }); });
+  document.getElementById('piece-suivante').addEventListener('click', function () { allerA((courant + 1) % PIECES.length); });
+
+  var webgl = false;
+  try {
+    var essai = document.createElement('canvas');
+    webgl = !!(window.THREE && (essai.getContext('webgl2') || essai.getContext('webgl')));
+  } catch (err) { webgl = false; }
+  if (webgl) {
+    try { demarrer3d(); } catch (err) { demarrerRepli(); }
+  } else {
+    demarrerRepli();
+  }
+
+  document.getElementById('autre-cle').addEventListener('click', function () {
+    annulerAnimations();
+    scene.classList.remove('encodage');
+    form.reset();
+    erreur(prenom, '');
+    erreur(email, '');
+    carte.classList.remove('active');
+    cleEtat.textContent = 'Aperçu';
+    cleEtat.classList.remove('ok');
+    cleNumero.textContent = 'N° 13100-····';
+    carte.setAttribute('aria-label', 'Aperçu de votre clé');
+    majApercu();
+    statut.textContent = '';
+    confirmation.hidden = true;
+    form.hidden = false;
+    prenom.focus();
+  });
+})();
+</script>
+
+</html>
