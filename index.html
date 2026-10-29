@@ -201,25 +201,72 @@ html.menu-ouvert { overflow: hidden; }
     linear-gradient(90deg, rgba(var(--nuit-rgb), 0.94) 0%, rgba(var(--nuit-rgb), 0.78) 38%, rgba(var(--nuit-rgb), 0.12) 72%),
     linear-gradient(0deg, rgba(var(--nuit-rgb), 0.55) 0%, rgba(var(--nuit-rgb), 0) 45%);
 }
-.hero-in { position: relative; z-index: 1; padding-block: clamp(56px, 8vw, 104px); display: flex; flex-direction: column; align-items: flex-start; gap: 22px; }
-.hero-logo { width: clamp(150px, 17vw, 200px); height: auto; margin-bottom: 8px; }
+.hero-in {
+  position: relative; z-index: 1;
+  padding-block: clamp(48px, 6vw, 88px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 420px);
+  grid-template-areas: "texte cle" "suite cle";
+  column-gap: clamp(32px, 6vw, 80px); row-gap: 20px;
+  align-items: start;
+}
+.hero-bloc { grid-area: texte; display: flex; flex-direction: column; align-items: flex-start; gap: 18px; }
+.hero-suite { grid-area: suite; display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
+.hero-logo { width: clamp(150px, 17vw, 200px); height: auto; margin-bottom: 4px; }
 .hero h1 { display: flex; flex-direction: column; }
-.h-heure { font: 600 clamp(128px, 21vw, 240px)/0.78 var(--f-heure); letter-spacing: -0.03em; }
+.h-heure { font: 600 clamp(128px, 17vw, 210px)/0.78 var(--f-heure); letter-spacing: -0.03em; }
 .h-chez { display: flex; align-items: baseline; flex-wrap: wrap; gap: 4px 14px; margin-top: 14px; font-size: clamp(22px, 3vw, 30px); font-weight: 500; }
 .h-marque { font-size: clamp(34px, 6vw, 64px); font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--jaune); line-height: 1; }
-.hero-texte { font-size: clamp(18px, 2.1vw, 21px); max-width: 36ch; color: var(--sable); }
+.hero-texte { font-size: clamp(18px, 2vw, 21px); max-width: 38ch; color: var(--sable); }
 .signature { font: 400 clamp(60px, 7vw, 80px)/1 var(--f-main); color: var(--beige); }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
-.hero-faits { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; font-weight: 600; color: var(--beige); }
-.hero-faits li { display: inline-flex; align-items: center; gap: 8px; }
-.hero-faits li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--jaune); }
+.hero-lien { color: var(--beige); }
+.hero-affiche { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; max-width: 46ch; font-size: 15px; line-height: 1.4; color: var(--sable); }
+.hero-affiche-tag { background: var(--jaune); color: var(--anthracite); font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; padding: 5px 8px; line-height: 1.2; }
+.hero-affiche strong { color: var(--blanc); font-weight: 600; }
+
+/* La clé expliquée dès l'ouverture */
+.hero-cle { grid-area: cle; align-self: center; background: var(--sable); color: var(--anthracite); border-top: 6px solid var(--jaune); padding: 24px 24px 20px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 30px 60px -28px rgba(0, 0, 0, 0.7); }
+.hero-cle :focus-visible { outline-color: var(--anthracite); }
+.hero-cle-tete { display: flex; align-items: center; gap: 16px; }
+.mini-cle { position: relative; flex-shrink: 0; width: 92px; aspect-ratio: 85.6 / 54; border-radius: 8px; background: var(--jaune); padding: 8px 9px; display: flex; flex-direction: column; justify-content: space-between; align-items: flex-start; box-shadow: 0 10px 18px -10px rgba(0, 0, 0, 0.55); }
+.mini-cle img { width: 14px; height: auto; }
+.mini-cle span { background: var(--anthracite); color: var(--jaune); font-size: 8px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; padding: 3px 5px; line-height: 1; }
+.hero-cle .hero-cle-titre { font-size: 25px; line-height: 1.1; letter-spacing: 0; max-width: none; }
+.hero-cle-sous { margin-top: 4px; font-size: 15px; line-height: 1.4; color: var(--encre-douce); }
+.hero-cle-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 16px; line-height: 1.4; }
+.hero-cle-liste li { position: relative; padding-left: 32px; }
+.hero-cle-liste li::before { content: ""; position: absolute; left: 0; top: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--jaune); }
+.hero-cle-liste li::after { content: ""; position: absolute; left: 7px; top: 6px; width: 8px; height: 5px; border-left: 2px solid var(--anthracite); border-bottom: 2px solid var(--anthracite); transform: rotate(-45deg); }
+.hero-cle-liste strong { font-weight: 600; }
+.hero-cle .bouton { width: 100%; }
+.hero-cle-note { font-size: 13px; text-align: center; color: var(--encre-douce); }
+@media (max-width: 959px) {
+  .hero-in { grid-template-columns: minmax(0, 1fr); grid-template-areas: "texte" "cle" "suite"; }
+  .hero-cle { align-self: start; width: 100%; max-width: 520px; }
+}
 @media (max-width: 719px) {
-  .hero-photo { height: 62%; object-position: 76% 35%; }
+  .hero-photo { height: min(100vw, 520px); object-position: 76% 35%; }
   .hero::after {
-    background: linear-gradient(180deg, rgba(var(--nuit-rgb), 0.1) 0%, rgba(var(--nuit-rgb), 0.35) 30%, rgba(var(--nuit-rgb), 1) 58%);
+    background: linear-gradient(180deg, rgba(var(--nuit-rgb), 0.1) 0px, rgba(var(--nuit-rgb), 0.45) 26vw, rgba(var(--nuit-rgb), 1) 74vw);
   }
-  .hero-in { padding-top: 46vw; }
+  .hero-in { padding-top: 24vw; padding-bottom: 44px; row-gap: 20px; }
+  .hero-bloc { gap: 14px; }
   .hero-logo { display: none; }
+  .h-heure { font-size: 96px; }
+  .h-chez { margin-top: 10px; }
+  .hero-texte { font-size: 17px; }
+  .hero-cle { padding: 20px 18px 18px; gap: 14px; }
+  .hero-cle .hero-cle-titre { font-size: 22px; }
+  .hero-cle-liste { font-size: 15px; gap: 9px; }
+  .hero-suite .signature { font-size: 54px; }
+}
+@media (max-width: 559px) {
+  .hero-cle-sous { display: none; }
+  .mini-cle { width: 78px; }
+}
+@media (max-width: 719px) and (max-height: 780px) {
+  .hero-in { padding-top: 14vw; }
+  .h-heure { font-size: 82px; }
 }
 
 /* En ce moment */
@@ -577,18 +624,31 @@ b, strong, th { font-weight: 600; }
   <section class="hero sur-nuit" id="haut" aria-labelledby="titre-principal">
     <img class="hero-photo" src="img/facade.jpg" alt="" width="1600" height="1200">
     <div class="wrap hero-in">
-      <img class="hero-logo" src="img/logo-blanc.png" alt="Renaissance Aix-en-Provence Hotel" width="640" height="322">
-      <h1 id="titre-principal"><span class="h-heure">24h</span><span class="h-chez">chez <span class="h-marque">Renaissance</span></span></h1>
-      <p class="hero-texte">L’hôtel s’ouvre aux Aixois : restaurant, bar, spa, piscines et 150 œuvres d’art, sans réserver de chambre.</p>
-      <ul class="hero-faits">
-        <li>Ouvert à tous, tous les jours</li>
-        <li>Clé gratuite</li>
-        <li>Parking de 80 places</li>
-      </ul>
-      <p class="signature">tout le reste est à vous.</p>
-      <div class="hero-actions">
-        <a class="bouton bouton-jaune" href="#inscription">Récupérer ma clé</a>
-        <a class="bouton bouton-ligne" href="#journee">Voir la journée</a>
+      <div class="hero-bloc">
+        <img class="hero-logo" src="img/logo-blanc.png" alt="Renaissance Aix-en-Provence Hotel" width="640" height="322">
+        <p class="hero-affiche" id="hero-affiche" hidden></p>
+        <h1 id="titre-principal"><span class="h-heure">24h</span><span class="h-chez">chez <span class="h-marque">Renaissance</span></span></h1>
+        <p class="hero-texte">L’hôtel 5 étoiles d’Aix s’ouvre aux Aixois&#8239;: bar, restaurant, spa, piscines et 150 œuvres d’art, sans y dormir.</p>
+      </div>
+      <aside class="hero-cle" aria-labelledby="hero-cle-titre">
+        <div class="hero-cle-tete">
+          <div class="mini-cle" aria-hidden="true"><img src="img/r-anthracite.png" alt="" width="343" height="317"><span>Voisin</span></div>
+          <div>
+            <h2 class="hero-cle-titre" id="hero-cle-titre">Votre clé, gratuite</h2>
+            <p class="hero-cle-sous">La carte des Aixois au Renaissance. Elle vous ouvre tout l’hôtel.</p>
+          </div>
+        </div>
+        <ul class="hero-cle-liste">
+          <li><strong>Votre premier verre offert</strong> au bar</li>
+          <li><strong>Le programme chaque lundi</strong> par e-mail</li>
+          <li><strong>Des avantages à chaque visite</strong>&#8239;: 15&#8239;% de réduction, Jeudis en priorité, soirées privées</li>
+        </ul>
+        <a class="bouton bouton-jaune" href="#inscription">Créer ma clé en 1 minute</a>
+        <p class="hero-cle-note">Sans engagement · aussi à l’accueil de l’hôtel</p>
+      </aside>
+      <div class="hero-suite">
+        <a class="lien-fleche hero-lien" id="hero-lien" href="#journee">Voir ce qu’on peut faire, heure par heure</a>
+        <p class="signature">tout le reste est à vous.</p>
       </div>
     </div>
   </section>
@@ -1792,6 +1852,34 @@ b, strong, th { font-weight: 600; }
     form.hidden = false;
     prenom.focus();
   });
+
+  /* Ouverture : en arrivant par le QR code d'une affiche, on rappelle l'affiche scannée */
+  var AFFICHES = {
+    '8h': { titre: '8h · Run club', texte: 'le samedi à 8h, départ du hall. Gratuit avec la clé.', creneau: '8h', lien: 'Voir le run club' },
+    '12h': { titre: '12h · Le déj des voisins', texte: 'du lundi au vendredi à Atmosph’R, dès 25 €.', creneau: '12h', lien: 'Voir le déj des voisins' },
+    '18h': { titre: '18h · Spa after work', texte: 'le vendredi de 18h à 20h, le spa puis un cocktail.', creneau: '18h', lien: 'Voir le spa after work' },
+    'jeudi': { titre: 'Jeudi 19h · Vernissage', texte: 'le 1er jeudi du mois, avec un artiste aixois.', ancre: '#jeudis', lien: 'Voir les Jeudis Renaissance' }
+  };
+  var srcAffiche = ((new URLSearchParams(location.search).get('src') || '').match(/(8h|12h|18h|jeudi)$/) || [])[1];
+  var affiche = srcAffiche ? AFFICHES[srcAffiche] : null;
+  if (affiche) {
+    var boiteAffiche = document.getElementById('hero-affiche');
+    var tagAffiche = document.createElement('span');
+    tagAffiche.className = 'hero-affiche-tag';
+    tagAffiche.textContent = 'Affiche scannée';
+    var infoAffiche = document.createElement('span');
+    var titreAffiche = document.createElement('strong');
+    titreAffiche.textContent = affiche.titre;
+    infoAffiche.appendChild(titreAffiche);
+    infoAffiche.appendChild(document.createTextNode(' : ' + affiche.texte));
+    boiteAffiche.appendChild(tagAffiche);
+    boiteAffiche.appendChild(infoAffiche);
+    boiteAffiche.hidden = false;
+    var lienHero = document.getElementById('hero-lien');
+    lienHero.textContent = affiche.lien;
+    if (affiche.ancre) lienHero.setAttribute('href', affiche.ancre);
+    else lienHero.addEventListener('click', function () { choisir(affiche.creneau); });
+  }
 
   /* Menu burger : le panneau s'ouvre sous l'en-tête. Échap, un clic à côté ou un lien le referment. */
   var entete = document.querySelector('.entete');
