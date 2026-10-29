@@ -126,22 +126,71 @@ h2 {
   background: var(--anthracite); color: var(--beige);
   border-bottom: 1px solid var(--filet-nuit);
 }
-.entete-in { display: flex; align-items: center; gap: 28px; min-height: 64px; }
+.entete-in { display: flex; align-items: center; gap: 24px; min-height: 64px; }
 .marque { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--beige); font-size: 16px; font-weight: 500; white-space: nowrap; min-width: 0; }
 .marque img { width: 26px; height: auto; }
 .marque b { font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
-.nav { display: flex; gap: 26px; margin-left: auto; }
-.nav a { color: var(--beige); text-decoration: none; font-weight: 600; font-size: 15px; padding-block: 8px; border-bottom: 2px solid transparent; }
-.nav a:hover { border-bottom-color: var(--jaune); }
-.entete .bouton { flex-shrink: 0; }
-@media (max-width: 899px) {
-  .nav { display: none; }
-  .entete .bouton { margin-left: auto; }
+.nav { display: none; gap: 24px; margin-left: auto; }
+.nav a { color: var(--beige); text-decoration: none; font-weight: 600; font-size: 15px; padding-block: 8px; border-bottom: 2px solid transparent; white-space: nowrap; }
+.nav a:hover, .nav a[aria-current="true"] { border-bottom-color: var(--jaune); }
+.entete-actions { display: flex; align-items: center; gap: 10px; margin-left: auto; flex-shrink: 0; }
+@media (min-width: 1080px) {
+  .nav { display: flex; }
+  .entete-actions { margin-left: 0; }
 }
-@media (max-width: 379px) {
-  .marque span { font-size: 14px; }
-  .entete-in { gap: 12px; }
+@media (max-width: 419px) {
+  .entete-in { gap: 10px; }
+  .marque { gap: 8px; }
+  .marque .m-24h { display: none; }
 }
+
+/* Menu burger : un panneau sous l'en-tête, avec toutes les sections */
+.burger {
+  display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+  min-width: 44px; min-height: 44px; padding: 0 14px;
+  background: transparent; color: var(--beige);
+  border: 2px solid var(--filet-nuit); border-radius: 0;
+  font: 600 15px/1 var(--f-texte); letter-spacing: 0.04em; cursor: pointer;
+}
+.burger:hover, .burger[aria-expanded="true"] { border-color: var(--beige); }
+.burger-icone { position: relative; display: block; width: 20px; height: 14px; flex-shrink: 0; }
+.burger-icone span { position: absolute; left: 0; width: 100%; height: 2px; background: currentColor; transition: transform .2s ease, opacity .2s ease; }
+.burger-icone span:nth-child(1) { top: 0; }
+.burger-icone span:nth-child(2) { top: 6px; }
+.burger-icone span:nth-child(3) { top: 12px; }
+.burger[aria-expanded="true"] .burger-icone span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+.burger[aria-expanded="true"] .burger-icone span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded="true"] .burger-icone span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+@media (max-width: 559px) {
+  .burger { width: 44px; padding: 0; }
+  .burger-texte { display: none; }
+}
+html.menu-ouvert { overflow: hidden; }
+.menu-voile { position: fixed; inset: 0; z-index: 19; background: rgba(13, 13, 14, 0.55); opacity: 0; transition: opacity .2s ease; }
+.menu-voile.ouvert { opacity: 1; }
+.menu {
+  position: absolute; top: 100%; right: 0;
+  width: min(440px, 100%);
+  max-height: calc(100vh - var(--haut-menu, 100px));
+  max-height: calc(100dvh - var(--haut-menu, 100px));
+  overflow-y: auto; overscroll-behavior: contain;
+  background: var(--anthracite); color: var(--beige);
+  border-left: 1px solid var(--filet-nuit);
+  padding: 4px max(var(--gutter), env(safe-area-inset-right, 0px)) calc(28px + env(safe-area-inset-bottom, 0px)) var(--gutter);
+  box-shadow: -24px 24px 48px -24px rgba(0, 0, 0, 0.6);
+  opacity: 0; transform: translateX(24px);
+  transition: opacity .2s ease, transform .2s ease;
+}
+.menu.ouvert { opacity: 1; transform: none; }
+.menu-liste { list-style: none; margin: 0; padding: 0; }
+.menu-liste a { display: flex; flex-direction: column; gap: 3px; padding: 13px 0 13px 16px; border-left: 3px solid transparent; border-bottom: 1px solid var(--filet-nuit); text-decoration: none; color: var(--beige); }
+.menu-liste a:hover .m-titre { color: var(--jaune); }
+.menu-liste a[aria-current="true"] { border-left-color: var(--jaune); }
+.m-titre { font-size: 19px; font-weight: 600; line-height: 1.2; }
+.m-desc { font-size: 14px; line-height: 1.35; color: var(--brume); }
+.menu .bouton { width: 100%; margin-top: 22px; }
+.menu-pied { margin-top: 16px; font-size: 14px; line-height: 1.5; color: var(--brume); }
+@media (max-width: 559px) { .menu { border-left: 0; } }
 
 /* Ouverture */
 .hero { position: relative; overflow: hidden; background: var(--nuit); color: var(--blanc); }
@@ -161,6 +210,9 @@ h2 {
 .hero-texte { font-size: clamp(18px, 2.1vw, 21px); max-width: 36ch; color: var(--sable); }
 .signature { font: 400 clamp(60px, 7vw, 80px)/1 var(--f-main); color: var(--beige); }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 6px; }
+.hero-faits { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 15px; font-weight: 600; color: var(--beige); }
+.hero-faits li { display: inline-flex; align-items: center; gap: 8px; }
+.hero-faits li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--jaune); }
 @media (max-width: 719px) {
   .hero-photo { height: 62%; object-position: 76% 35%; }
   .hero::after {
@@ -186,6 +238,7 @@ h2 {
 .etapes h3 { font-size: 21px; font-weight: 600; line-height: 1.25; padding-top: 3px; }
 .etapes p { font-size: 17px; color: var(--encre-douce); }
 @media (max-width: 859px) { .etapes { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
+.principe-lien { margin-top: 32px; }
 
 /* La journée */
 .onglets { display: flex; flex-wrap: wrap; gap: 10px; margin: 32px 0 24px; }
@@ -214,9 +267,14 @@ h2 {
 .panneau-texte { padding: clamp(24px, 4vw, 52px); display: flex; flex-direction: column; gap: 14px; justify-content: center; }
 .p-heure { font: 600 clamp(80px, 10vw, 124px)/0.8 var(--f-heure); letter-spacing: -0.02em; }
 .panneau h3 { font-size: clamp(26px, 3vw, 34px); font-weight: 600; line-height: 1.1; }
-.p-meta { font-size: 15px; font-weight: 600; letter-spacing: 0.04em; color: var(--encre-douce); }
 .panneau p.p-ligne { font-size: 18px; max-width: 40ch; }
 .panneau .lien-fleche { align-self: flex-start; }
+.p-infos { margin: 4px 0 0; display: grid; gap: 10px; font-size: 16px; line-height: 1.45; }
+.p-infos div { display: grid; grid-template-columns: 116px minmax(0, 1fr); gap: 12px; padding-top: 10px; border-top: 1px solid var(--lin); }
+.p-infos dt { font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--encre-douce); padding-top: 3px; }
+.p-infos dd { margin: 0; }
+@media (max-width: 479px) { .p-infos div { grid-template-columns: 96px minmax(0, 1fr); gap: 10px; } }
+@media (max-width: 339px) { .p-infos div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 @media (max-width: 759px) {
   .panneau { grid-template-columns: minmax(0, 1fr); }
   .panneau > img { min-height: 0; height: auto; aspect-ratio: 16 / 10; }
@@ -234,6 +292,7 @@ h2 {
 .point { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--anthracite); vertical-align: middle; }
 .grille .aujourdhui { background: var(--jaune-voile); }
 .grille thead th.aujourdhui::after { content: ""; position: absolute; left: 50%; bottom: 4px; width: 18px; height: 3px; margin-left: -9px; background: var(--anthracite); }
+.semaine-note { margin-top: 18px; font-size: 16px; color: var(--encre-douce); }
 @media (max-width: 559px) {
   .grille thead th { width: 30px; font-size: 17px; }
   .grille th, .grille td { padding-block: 12px; }
@@ -250,32 +309,47 @@ h2 {
 .j-rang { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--brume); }
 .jeudi h3 { font: 600 clamp(42px, 3.8vw, 52px)/0.9 var(--f-heure); color: var(--beige); letter-spacing: -0.01em; }
 .j-lieu { font-weight: 600; color: var(--jaune); font-size: 16px; }
-.jeudi p:last-child { color: var(--brume); font-size: 16px; }
+.j-texte { color: var(--brume); font-size: 16px; }
+.j-prix { margin-top: auto; padding-top: 12px; border-top: 1px solid var(--filet-nuit); color: var(--beige); font-size: 16px; font-weight: 600; }
+.jeudis-plus { margin-top: 40px; padding-top: 28px; border-top: 1px solid var(--filet-nuit); }
+.jeudis-plus h3 { font-size: 22px; font-weight: 600; color: var(--beige); }
+.jeudis-plus ul { list-style: none; margin: 16px 0 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 40px; color: var(--brume); font-size: 17px; }
+.jeudis-plus li { position: relative; padding-left: 22px; }
+.jeudis-plus li::before { content: ""; position: absolute; left: 0; top: 0.6em; width: 8px; height: 8px; border-radius: 50%; background: var(--jaune); }
+.jeudis-resa { margin-top: 28px; max-width: 72ch; font-size: 17px; color: var(--brume); }
+.jeudis-resa strong { color: var(--beige); }
+@media (max-width: 759px) { .jeudis-plus ul { grid-template-columns: minmax(0, 1fr); } }
 .badge { align-self: flex-start; background: var(--jaune); color: var(--anthracite); font-size: 12px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 6px 10px; line-height: 1.2; }
 @media (max-width: 999px) { .jeudis-grille { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 559px) { .jeudis-grille { grid-template-columns: minmax(0, 1fr); } }
 
 /* La clé : les niveaux */
 .parcours { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 28px; }
-.parcours li { position: relative; padding-top: 44px; display: flex; flex-direction: column; gap: 6px; }
-.parcours li::before {
+.parcours > li { position: relative; padding-top: 44px; display: flex; flex-direction: column; gap: 6px; }
+.parcours > li::before {
   content: ""; position: absolute; top: 0; left: 0; z-index: 1;
   width: 26px; height: 26px; border-radius: 50%;
   background: var(--sable); border: 3px solid var(--anthracite);
 }
-.parcours li:first-child::before { background: var(--jaune); }
-.parcours li:not(:last-child)::after {
+.parcours > li:first-child::before { background: var(--jaune); }
+.parcours > li:not(:last-child)::after {
   content: ""; position: absolute; top: 12px; left: 26px; right: -28px;
   height: 2px; background: var(--anthracite);
 }
 .parcours h3 { font: 600 46px/0.95 var(--f-heure); }
 .n-quand { font-size: 13px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--encre-douce); }
-.parcours ul { margin: 8px 0 0; padding-left: 18px; display: grid; gap: 4px; font-size: 17px; }
-.parcours-note { margin-top: 28px; font-size: 17px; color: var(--encre-douce); }
+.n-plus { margin-top: 8px; font-size: 15px; font-weight: 600; color: var(--encre-douce); }
+.parcours ul { margin: 8px 0 0; padding-left: 20px; display: grid; gap: 6px; font-size: 17px; line-height: 1.45; list-style: disc; }
+.cle-savoir { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px 48px; margin-top: 48px; }
+.cle-savoir > div { border-top: 2px solid var(--anthracite); padding-top: 14px; display: flex; flex-direction: column; gap: 6px; }
+.cle-savoir h3 { font-size: 13px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; }
+.cle-savoir p { color: var(--encre-douce); }
+.cle-cta { margin-top: 36px; }
+@media (max-width: 759px) { .cle-savoir { grid-template-columns: minmax(0, 1fr); gap: 24px; } }
 @media (max-width: 759px) {
   .parcours { grid-template-columns: minmax(0, 1fr); gap: 28px; }
-  .parcours li { padding-top: 0; padding-left: 46px; }
-  .parcours li:not(:last-child)::after { top: 26px; bottom: -28px; left: 12px; right: auto; width: 2px; height: auto; }
+  .parcours > li { padding-top: 0; padding-left: 46px; }
+  .parcours > li:not(:last-child)::after { top: 26px; bottom: -28px; left: 12px; right: auto; width: 2px; height: auto; }
 }
 
 /* La clé (objet) */
@@ -368,6 +442,8 @@ fieldset.champ { border: 0; padding: 0; margin: 0; min-width: 0; }
 .puce input:focus-visible + span { outline: 3px solid var(--jaune); outline-offset: 3px; }
 .formulaire .bouton { width: 100%; margin-top: 8px; }
 .demo { font-size: 14px; color: var(--brume); }
+.aide { margin-top: 8px; font-size: 14px; line-height: 1.4; color: var(--brume); }
+.aide-envies { margin: -2px 0 12px; }
 
 .confirmation { display: flex; flex-direction: column; align-items: flex-start; gap: 14px; }
 .confirmation h3 { font-size: clamp(28px, 3.4vw, 36px); font-weight: 600; line-height: 1.1; color: var(--beige); outline: none; }
@@ -419,6 +495,15 @@ fieldset.champ { border: 0; padding: 0; margin: 0; min-width: 0; }
 .conf-physique { padding-top: 14px; border-top: 1px solid var(--filet-nuit); width: 100%; }
 .lien-bouton { background: none; border: 0; padding: 8px 0; color: var(--beige); font: 600 15px var(--f-texte); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; min-height: 44px; }
 
+/* Questions fréquentes */
+.faq { margin-top: 32px; max-width: 880px; border-top: 2px solid var(--anthracite); }
+.faq details { border-bottom: 1px solid var(--lin); }
+.faq summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; min-height: 60px; padding: 14px 0; font-size: 19px; font-weight: 600; line-height: 1.3; cursor: pointer; list-style: none; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: ""; flex-shrink: 0; width: 11px; height: 11px; margin: -4px 6px 0 0; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg); transition: transform .2s ease; }
+.faq details[open] summary::after { transform: rotate(-135deg); margin-top: 6px; }
+.faq details p { padding-bottom: 20px; max-width: 70ch; color: var(--encre-douce); }
+
 /* Infos */
 .infos-grille { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px 48px; margin-top: 32px; }
 .infos-grille > div { border-top: 2px solid var(--anthracite); padding-top: 16px; display: flex; flex-direction: column; gap: 6px; }
@@ -429,6 +514,10 @@ fieldset.champ { border: 0; padding: 0; margin: 0; min-width: 0; }
 .horaires div { display: flex; justify-content: space-between; gap: 16px; }
 .horaires dt { font-weight: 600; }
 .horaires dd { margin: 0; text-align: right; color: var(--encre-douce); font-variant-numeric: tabular-nums; }
+.acces { list-style: none; margin: 6px 0 0; padding: 0; display: grid; gap: 8px; font-size: 16px; color: var(--encre-douce); }
+.acces strong { color: var(--encre); }
+.infos-cta { margin-top: 12px; align-self: flex-start; }
+.infos-note { margin-top: 32px; font-size: 14px; color: var(--encre-douce); }
 @media (max-width: 859px) { .infos-grille { grid-template-columns: minmax(0, 1fr); } }
 
 /* Pied de page */
@@ -454,17 +543,35 @@ b, strong, th { font-weight: 600; }
 
 <header class="entete sur-nuit">
   <div class="wrap entete-in">
-    <a class="marque" href="#haut"><img src="img/r-blanc.png" alt="" width="343" height="317"><span>24h chez <b>Renaissance</b></span></a>
-    <nav class="nav" aria-label="Sections du site">
+    <a class="marque" href="#haut" aria-label="24h chez Renaissance, retour en haut de la page"><img src="img/r-blanc.png" alt="" width="343" height="317"><span><span class="m-24h">24h chez </span><b>Renaissance</b></span></a>
+    <nav class="nav" aria-label="Sections principales">
       <a href="#journee">La journée</a>
-      <a href="#visite">La visite</a>
       <a href="#semaine">La semaine</a>
       <a href="#jeudis">Les Jeudis</a>
       <a href="#cle">La clé</a>
+      <a href="#infos">Infos pratiques</a>
     </nav>
-    <a class="bouton bouton-jaune bouton-petit" href="#inscription">Ma clé</a>
+    <div class="entete-actions">
+      <a class="bouton bouton-jaune bouton-petit" href="#inscription">Ma clé</a>
+      <button class="burger" type="button" id="burger" aria-expanded="false" aria-controls="menu" aria-label="Ouvrir le menu"><span class="burger-icone" aria-hidden="true"><span></span><span></span><span></span></span><span class="burger-texte" aria-hidden="true">Menu</span></button>
+    </div>
   </div>
+  <nav class="menu" id="menu" aria-label="Menu du site" hidden>
+    <ul class="menu-liste">
+      <li><a href="#principe"><span class="m-titre">Comment ça marche</span><span class="m-desc">La clé gratuite, en 3 étapes</span></a></li>
+      <li><a href="#journee"><span class="m-titre">Que faire, à quelle heure</span><span class="m-desc">De 8h à minuit : où, quand, combien</span></a></li>
+      <li><a href="#visite"><span class="m-titre">Visiter l’hôtel</span><span class="m-desc">Le hall, Atmosph’R, le spa, le Palm’s</span></a></li>
+      <li><a href="#semaine"><span class="m-titre">La semaine</span><span class="m-desc">Les rendez-vous fixes, jour par jour</span></a></li>
+      <li><a href="#jeudis"><span class="m-titre">Les Jeudis Renaissance</span><span class="m-desc">Art, Goût, Son, Bien-être : horaires et prix</span></a></li>
+      <li><a href="#cle"><span class="m-titre">La clé et ses avantages</span><span class="m-desc">Voisin, Habitué, Initié</span></a></li>
+      <li><a href="#faq"><span class="m-titre">Questions fréquentes</span><span class="m-desc">Prix, réservation, parking, famille</span></a></li>
+      <li><a href="#infos"><span class="m-titre">Venir au Renaissance</span><span class="m-desc">Adresse, accès, horaires</span></a></li>
+    </ul>
+    <a class="bouton bouton-jaune" href="#inscription">Récupérer ma clé, c’est gratuit</a>
+    <p class="menu-pied">320 avenue Wolfgang Amadeus Mozart, Aix-en-Provence. Ouvert à tous, tous les jours.</p>
+  </nav>
 </header>
+<div class="menu-voile" id="menu-voile" hidden></div>
 
 <main>
   <section class="hero sur-nuit" id="haut" aria-labelledby="titre-principal">
@@ -473,6 +580,11 @@ b, strong, th { font-weight: 600; }
       <img class="hero-logo" src="img/logo-blanc.png" alt="Renaissance Aix-en-Provence Hotel" width="640" height="322">
       <h1 id="titre-principal"><span class="h-heure">24h</span><span class="h-chez">chez <span class="h-marque">Renaissance</span></span></h1>
       <p class="hero-texte">L’hôtel s’ouvre aux Aixois : restaurant, bar, spa, piscines et 150 œuvres d’art, sans réserver de chambre.</p>
+      <ul class="hero-faits">
+        <li>Ouvert à tous, tous les jours</li>
+        <li>Clé gratuite</li>
+        <li>Parking de 80 places</li>
+      </ul>
       <p class="signature">tout le reste est à vous.</p>
       <div class="hero-actions">
         <a class="bouton bouton-jaune" href="#inscription">Récupérer ma clé</a>
@@ -493,16 +605,18 @@ b, strong, th { font-weight: 600; }
     <div class="wrap">
       <h2 id="titre-principe">Comment ça marche</h2>
       <ol class="etapes">
-        <li><span class="etape-num" aria-hidden="true">1</span><h3>Récupérez votre clé</h3><p>Gratuite, en ligne ou à l’accueil de l’hôtel.</p></li>
-        <li><span class="etape-num" aria-hidden="true">2</span><h3>Votre premier verre est offert</h3><p>À L’Avant-Scène, le bar de l’hôtel.</p></li>
-        <li><span class="etape-num" aria-hidden="true">3</span><h3>Revenez quand vous voulez</h3><p>Plus vous venez, plus votre clé ouvre de portes.</p></li>
+        <li><span class="etape-num" aria-hidden="true">1</span><h3>Récupérez votre clé</h3><p>Gratuite et sans engagement : en une minute sur ce site, à l’accueil de l’hôtel ou chez nos partenaires (commerçants du centre, fac, Grand Théâtre).</p></li>
+        <li><span class="etape-num" aria-hidden="true">2</span><h3>Votre premier verre est offert</h3><p>À L’Avant-Scène, le bar de l’hôtel, ouvert tous les jours de 10h à 00h30. Montrez votre clé : la carte ou l’e-mail de bienvenue.</p></li>
+        <li><span class="etape-num" aria-hidden="true">3</span><h3>Chaque passage compte</h3><p>Un café, un déjeuner, un spa ou un Jeudi : montrez votre clé. Après 3 passages, vous êtes Habitué, après 8, Initié, avec de nouveaux avantages à chaque niveau.</p></li>
       </ol>
+      <p class="principe-lien"><a class="lien-fleche" href="#cle">Voir tous les avantages de la clé</a></p>
     </div>
   </section>
 
   <section class="bande bande-beige" id="journee" aria-labelledby="titre-journee">
     <div class="wrap">
-      <h2 id="titre-journee">Que faire, et à quelle heure ?</h2>
+      <h2 id="titre-journee">Que faire, et à quelle heure ?</h2>
+      <p class="chapo">Choisissez une heure : vous voyez où aller, quand, combien ça coûte et s’il faut réserver.</p>
 
       <div class="onglets" role="tablist" aria-label="Les heures de la journée">
         <button class="onglet" role="tab" id="onglet-8h" data-creneau="8h" aria-controls="panneau-8h" aria-selected="false" tabindex="-1">8h<span class="sr-only marque-maint" hidden>, maintenant</span></button>
@@ -521,8 +635,13 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">8h</p>
           <h3>Le run club</h3>
-          <p class="p-meta">Le samedi · départ de l’hôtel</p>
-          <p class="p-ligne">Une boucle dans Aix, puis le petit-déjeuner.</p>
+          <p class="p-ligne">Une boucle d’environ 5 km dans Aix, à allure tranquille et ouverte à tous les niveaux, puis le petit-déjeuner au bord de la piscine.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Le samedi, départ à 8h</dd></div>
+            <div><dt>Où</dt><dd>Rendez-vous dans le hall de l’hôtel</dd></div>
+            <div><dt>Prix</dt><dd>Gratuit avec la clé · petit-déjeuner en option</dd></div>
+            <div><dt>Réserver</dt><dd>Sans réservation, venez 10 minutes avant</dd></div>
+          </dl>
         </div>
       </div>
 
@@ -531,8 +650,13 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">10h</p>
           <h3>Un café au milieu des œuvres</h3>
-          <p class="p-meta">Tous les jours · L’Avant-Scène</p>
-          <p class="p-ligne">150 œuvres d’art autour de vous. En semaine, on peut aussi y travailler.</p>
+          <p class="p-ligne">Un café à L’Avant-Scène, entouré des 150 œuvres d’art de l’hôtel, dont 40 créées pour lui par des artistes du Sud.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Tous les jours, dès 10h</dd></div>
+            <div><dt>Où</dt><dd>L’Avant-Scène, le bar de l’hôtel, et le hall</dd></div>
+            <div><dt>En semaine</dt><dd>Le bureau au bar : wifi gratuit et tables au calme pour travailler</dd></div>
+            <div><dt>Prix</dt><dd>Entrée libre, vous payez seulement votre consommation</dd></div>
+          </dl>
         </div>
       </div>
 
@@ -541,8 +665,14 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">12h</p>
           <h3>Le déj des voisins</h3>
-          <p class="p-meta">Du lundi au vendredi · Atmosph’R</p>
-          <p class="p-ligne">Servi en 45 minutes. Plat du jour dès 25 €.</p>
+          <p class="p-ligne">Une formule rapide servie en 45 minutes, pour bien déjeuner sans perdre sa pause.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Du lundi au vendredi, 12h–14h30</dd></div>
+            <div><dt>Où</dt><dd>Atmosph’R, le restaurant de l’hôtel</dd></div>
+            <div><dt>Prix</dt><dd>Dès 25 € · 15 % de réduction pour les Habitués de la clé</dd></div>
+            <div><dt>Réserver</dt><dd>Conseillé, à l’accueil de l’hôtel</dd></div>
+            <div><dt>Le dimanche</dt><dd>Le brunch en famille, 12h–15h (hors été), 65 € par adulte</dd></div>
+          </dl>
         </div>
       </div>
 
@@ -551,8 +681,13 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">15h</p>
           <h3>Spa et piscine</h3>
-          <p class="p-meta">Tous les jours, 10h–20h · Spa</p>
-          <p class="p-ligne">Piscine chauffée, hammam et fitness.</p>
+          <p class="p-ligne">La piscine intérieure chauffée, le hammam et le fitness du spa. L’été, la piscine extérieure chauffée du Palm’s Pool Club.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Tous les jours, 10h–20h · le Palm’s l’été</dd></div>
+            <div><dt>Avec la clé</dt><dd>15 % de réduction au spa pour les Habitués</dd></div>
+            <div><dt>Abonnement</dt><dd>L’abonnement voisin : la piscine et le fitness au mois, en dehors des heures d’affluence, places limitées</dd></div>
+            <div><dt>Réserver</dt><dd>À l’accueil du spa</dd></div>
+          </dl>
         </div>
       </div>
 
@@ -561,8 +696,12 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">18h</p>
           <h3>L’apéro</h3>
-          <p class="p-meta">Tous les soirs · L’Avant-Scène</p>
-          <p class="p-ligne">Le vendredi, spa after work de 18h à 20h.</p>
+          <p class="p-ligne">Un verre à L’Avant-Scène pour finir la journée. Avec la clé, le premier est offert.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Tous les soirs, sans réservation</dd></div>
+            <div><dt>Mercredi</dt><dd>La Golden Hour au Palm’s l’été, l’afterwork au bar l’hiver</dd></div>
+            <div><dt>Vendredi</dt><dd>Le spa after work, 18h–20h : le spa puis un cocktail, sur réservation</dd></div>
+          </dl>
         </div>
       </div>
 
@@ -571,8 +710,13 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">19h</p>
           <h3>Le dîner</h3>
-          <p class="p-meta">Tous les soirs, 19h–22h · Atmosph’R</p>
-          <p class="p-ligne">Le Grand Théâtre est à 3 minutes à pied.</p>
+          <p class="p-ligne">La cuisine bistronomique d’Atmosph’R. Le Grand Théâtre de Provence est à 3 minutes à pied : dînez avant le spectacle.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Tous les soirs, 19h–22h</dd></div>
+            <div><dt>Où</dt><dd>Atmosph’R, le restaurant de l’hôtel</dd></div>
+            <div><dt>Réserver</dt><dd>Conseillé, à l’accueil de l’hôtel</dd></div>
+            <div><dt>Grande occasion</dt><dd>La Table de Pierre Reboul, restaurant étoilé de l’hôtel, menus de 89 à 179 €</dd></div>
+          </dl>
         </div>
       </div>
 
@@ -581,9 +725,13 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">Jeudi</p>
           <h3>Les Jeudis Renaissance</h3>
-          <p class="p-meta">Chaque jeudi, dès 19h</p>
-          <p class="p-ligne">Un thème différent chaque semaine.</p>
-          <a class="lien-fleche" href="#jeudis">Voir les Jeudis</a>
+          <p class="p-ligne">Chaque jeudi soir, un thème différent : l’Art, le Goût, le Son et le Bien-être.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Chaque jeudi dès 19h · le Jeudi Son de 21h à 1h</dd></div>
+            <div><dt>Prix</dt><dd>De 15 à 35 € selon le thème</dd></div>
+            <div><dt>Réserver</dt><dd>Obligatoire, avec votre clé</dd></div>
+          </dl>
+          <a class="lien-fleche" href="#jeudis">Voir le programme des Jeudis</a>
         </div>
       </div>
 
@@ -592,7 +740,12 @@ b, strong, th { font-weight: 600; }
         <div class="panneau-texte">
           <p class="p-heure">Minuit</p>
           <h3>Le dernier verre</h3>
-          <p class="p-meta">Tous les soirs, jusqu’à 00h30 · L’Avant-Scène</p>
+          <p class="p-ligne">Un dernier cocktail au calme, à L’Avant-Scène.</p>
+          <dl class="p-infos">
+            <div><dt>Quand</dt><dd>Tous les soirs, jusqu’à 00h30</dd></div>
+            <div><dt>Réserver</dt><dd>Sans réservation</dd></div>
+            <div><dt>Parking</dt><dd>Le parking souterrain de l’hôtel, 80 places</dd></div>
+          </dl>
         </div>
       </div>
     </div>
@@ -601,6 +754,7 @@ b, strong, th { font-weight: 600; }
   <section class="bande bande-nuit sur-nuit" id="visite" aria-labelledby="titre-visite">
     <div class="wrap">
       <h2 id="titre-visite">Visitez l’hôtel</h2>
+      <p class="chapo">Glissez (ou utilisez les flèches) pour regarder autour de vous, puis touchez « Pièce suivante » pour avancer. Les repères jaunes montrent ce qu’on peut faire dans chaque pièce.</p>
       <div class="visionneuse" id="visionneuse">
         <canvas id="visite-toile" tabindex="0" aria-label="Vue immersive : Le hall. Flèches gauche et droite pour regarder autour."></canvas>
         <img class="visite-repli" id="visite-repli" alt="" hidden>
@@ -627,7 +781,7 @@ b, strong, th { font-weight: 600; }
   <section class="bande bande-sable" id="semaine" aria-labelledby="titre-semaine">
     <div class="wrap">
       <h2 id="titre-semaine">Chaque semaine</h2>
-      <p class="chapo">Aujourd’hui est en jaune.</p>
+      <p class="chapo">Les rendez-vous fixes, jour par jour. Aujourd’hui est surligné en jaune.</p>
 
       <div class="table-scroll">
         <table class="grille">
@@ -646,7 +800,7 @@ b, strong, th { font-weight: 600; }
           </thead>
           <tbody>
             <tr>
-              <th scope="row"><span class="r-nom">Le déj des voisins</span><span class="r-info">12h · Atmosph’R</span></th>
+              <th scope="row"><span class="r-nom">Le déj des voisins</span><span class="r-info">12h–14h30 · Atmosph’R · dès 25 €</span></th>
               <td data-jour="1"><span class="point"></span><span class="sr-only">oui</span></td>
               <td data-jour="2"><span class="point"></span><span class="sr-only">oui</span></td>
               <td data-jour="3"><span class="point"></span><span class="sr-only">oui</span></td>
@@ -656,7 +810,7 @@ b, strong, th { font-weight: 600; }
               <td data-jour="0"><span class="sr-only">non</span></td>
             </tr>
             <tr>
-              <th scope="row"><span class="r-nom">Bureau au bar</span><span class="r-info">En journée · L’Avant-Scène</span></th>
+              <th scope="row"><span class="r-nom">Bureau au bar</span><span class="r-info">Dès 10h · L’Avant-Scène · wifi gratuit</span></th>
               <td data-jour="1"><span class="point"></span><span class="sr-only">oui</span></td>
               <td data-jour="2"><span class="point"></span><span class="sr-only">oui</span></td>
               <td data-jour="3"><span class="point"></span><span class="sr-only">oui</span></td>
@@ -666,7 +820,7 @@ b, strong, th { font-weight: 600; }
               <td data-jour="0"><span class="sr-only">non</span></td>
             </tr>
             <tr>
-              <th scope="row"><span class="r-nom">Afterwork</span><span class="r-info">18h · au Palm’s l’été</span></th>
+              <th scope="row"><span class="r-nom">Golden Hour ou afterwork</span><span class="r-info">18h · au Palm’s l’été, au bar l’hiver</span></th>
               <td data-jour="1"><span class="sr-only">non</span></td>
               <td data-jour="2"><span class="sr-only">non</span></td>
               <td data-jour="3"><span class="point"></span><span class="sr-only">oui</span></td>
@@ -676,7 +830,7 @@ b, strong, th { font-weight: 600; }
               <td data-jour="0"><span class="sr-only">non</span></td>
             </tr>
             <tr>
-              <th scope="row"><span class="r-nom">Les Jeudis Renaissance</span><span class="r-info">19h · un thème par semaine</span></th>
+              <th scope="row"><span class="r-nom">Les Jeudis Renaissance</span><span class="r-info">Dès 19h · sur réservation · 15 à 35 €</span></th>
               <td data-jour="1"><span class="sr-only">non</span></td>
               <td data-jour="2"><span class="sr-only">non</span></td>
               <td data-jour="3"><span class="sr-only">non</span></td>
@@ -686,7 +840,7 @@ b, strong, th { font-weight: 600; }
               <td data-jour="0"><span class="sr-only">non</span></td>
             </tr>
             <tr>
-              <th scope="row"><span class="r-nom">Spa after work</span><span class="r-info">18h–20h · spa et cocktail</span></th>
+              <th scope="row"><span class="r-nom">Spa after work</span><span class="r-info">18h–20h · spa puis cocktail · sur réservation</span></th>
               <td data-jour="1"><span class="sr-only">non</span></td>
               <td data-jour="2"><span class="sr-only">non</span></td>
               <td data-jour="3"><span class="sr-only">non</span></td>
@@ -696,7 +850,7 @@ b, strong, th { font-weight: 600; }
               <td data-jour="0"><span class="sr-only">non</span></td>
             </tr>
             <tr>
-              <th scope="row"><span class="r-nom">Run club</span><span class="r-info">8h · puis petit-déjeuner</span></th>
+              <th scope="row"><span class="r-nom">Run club</span><span class="r-info">8h · départ du hall · gratuit avec la clé</span></th>
               <td data-jour="1"><span class="sr-only">non</span></td>
               <td data-jour="2"><span class="sr-only">non</span></td>
               <td data-jour="3"><span class="sr-only">non</span></td>
@@ -706,7 +860,7 @@ b, strong, th { font-weight: 600; }
               <td data-jour="0"><span class="sr-only">non</span></td>
             </tr>
             <tr>
-              <th scope="row"><span class="r-nom">Brunch en famille</span><span class="r-info">12h–15h · hors été</span></th>
+              <th scope="row"><span class="r-nom">Brunch en famille</span><span class="r-info">12h–15h · Atmosph’R · 65 € (hors été)</span></th>
               <td data-jour="1"><span class="sr-only">non</span></td>
               <td data-jour="2"><span class="sr-only">non</span></td>
               <td data-jour="3"><span class="sr-only">non</span></td>
@@ -718,6 +872,7 @@ b, strong, th { font-weight: 600; }
           </tbody>
         </table>
       </div>
+      <p class="semaine-note">Et tous les jours : L’Avant-Scène de 10h à 00h30, Atmosph’R le midi et le soir, le spa de 10h à 20h.</p>
     </div>
   </section>
 
@@ -726,7 +881,7 @@ b, strong, th { font-weight: 600; }
       <div class="jeudis-tete">
         <div>
           <h2 id="titre-jeudis">Les Jeudis Renaissance</h2>
-          <p class="chapo">Chaque jeudi soir, un thème différent. Sur réservation avec la clé.</p>
+          <p class="chapo">Chaque jeudi soir, l’hôtel ouvre ses portes autour d’un thème. Ouvert à tous les âges, sur réservation avec la clé.</p>
         </div>
         <p class="prochain" id="prochain-jeudi" hidden></p>
       </div>
@@ -734,58 +889,108 @@ b, strong, th { font-weight: 600; }
       <div class="jeudis-grille">
         <article class="jeudi" data-rang="1">
           <p class="badge" hidden></p>
-          <p class="j-rang">1<sup>er</sup> jeudi</p>
+          <p class="j-rang">1<sup>er</sup> jeudi du mois · 19h</p>
           <h3>Art</h3>
           <p class="j-lieu">Hall et galerie</p>
-          <p>Visite des œuvres avec un artiste aixois.</p>
+          <p class="j-texte">La visite des 150 œuvres de l’hôtel avec un artiste aixois, un verre à la main.</p>
+          <p class="j-prix">15 €, cocktail d’accueil compris</p>
         </article>
         <article class="jeudi" data-rang="2">
           <p class="badge" hidden></p>
-          <p class="j-rang">2<sup>e</sup> jeudi</p>
+          <p class="j-rang">2<sup>e</sup> jeudi du mois · 19h</p>
           <h3>Goût</h3>
           <p class="j-lieu">Atmosph’R</p>
-          <p>Atelier avec le chef, puis grande tablée.</p>
+          <p class="j-texte">Un atelier ou une dégustation avec le chef autour des produits locaux, puis une grande tablée partagée.</p>
+          <p class="j-prix">35 €, dégustation et dîner compris</p>
         </article>
         <article class="jeudi" data-rang="3">
           <p class="badge" hidden></p>
-          <p class="j-rang">3<sup>e</sup> jeudi</p>
+          <p class="j-rang">3<sup>e</sup> jeudi du mois · 21h–1h</p>
           <h3>Son</h3>
           <p class="j-lieu">Grande salle</p>
-          <p>DJ ou live d’artistes locaux. Tarif étudiant.</p>
+          <p class="j-texte">DJ ou live d’artistes locaux. Billet nominatif avec la clé, sécurité sur place, pas d’open bar.</p>
+          <p class="j-prix">15 € · 10 € pour les étudiants</p>
         </article>
         <article class="jeudi" data-rang="4">
           <p class="badge" hidden></p>
-          <p class="j-rang">4<sup>e</sup> jeudi</p>
+          <p class="j-rang">4<sup>e</sup> jeudi du mois · 19h</p>
           <h3>Bien-être</h3>
           <p class="j-lieu">Palm’s l’été, spa l’hiver</p>
-          <p>Yoga au coucher du soleil, puis mocktails.</p>
+          <p class="j-texte">L’été, du yoga au coucher du soleil avec casque audio, puis des mocktails sous les pergolas. L’hiver, au spa et à la piscine intérieure.</p>
+          <p class="j-prix">20 €, séance et mocktail compris</p>
         </article>
+      </div>
+
+      <div class="jeudis-plus">
+        <h3>Chaque jeudi, c’est aussi</h3>
+        <ul>
+          <li>Un accueil à votre prénom et un cocktail signature à l’arrivée.</li>
+          <li>Des intervenants choisis : le chef, les artistes de la collection, des musiciens d’Aix.</li>
+          <li>Les coulisses de l’hôtel : la cuisine, des œuvres qu’on ne voit pas d’habitude, l’équipe.</li>
+          <li>Des places limitées : vous réservez, on vous attend.</li>
+          <li>Le vestiaire, le parking et une petite attention au départ.</li>
+        </ul>
+      </div>
+      <p class="jeudis-resa"><strong>Pour réserver :</strong> avec votre clé, grâce au lien envoyé chaque lundi dans la newsletter, ou à l’accueil de l’hôtel. Les Habitués réservent 48 h avant tout le monde. Il n’y a pas de Jeudi le 5<sup>e</sup> jeudi du mois.</p>
       </div>
     </div>
   </section>
 
   <section class="bande bande-sable" id="cle" aria-labelledby="titre-cle">
     <div class="wrap">
-      <h2 id="titre-cle">La clé qui n’ouvre aucune chambre</h2>
-      <p class="chapo">Elle est gratuite et elle ouvre tout le reste. Plus vous venez, plus elle vous offre.</p>
+      <h2 id="titre-cle">La clé de tout le reste</h2>
+      <p class="chapo">Gratuite et sans engagement, elle vous ouvre le bar, le restaurant, le spa, les piscines et les Jeudis. Plus vous venez, plus elle vous offre.</p>
       <ol class="parcours">
         <li>
           <h3>Voisin</h3>
           <p class="n-quand">Dès l’inscription</p>
-          <ul><li>Un verre offert</li><li>Le programme du mois</li></ul>
+          <ul>
+            <li>Un verre offert à L’Avant-Scène : cocktail, vin ou sans alcool</li>
+            <li>Le programme de la semaine, chaque lundi par e-mail</li>
+            <li>L’accès aux réservations des Jeudis Renaissance</li>
+            <li>Un accueil à votre prénom à chaque visite</li>
+          </ul>
         </li>
         <li>
           <h3>Habitué</h3>
           <p class="n-quand">Après 3 passages</p>
-          <ul><li>Tarif voisin au spa, au brunch et au déjeuner</li><li>Une place pour un ami aux Jeudis</li></ul>
+          <p class="n-plus">Tous les avantages Voisin, et :</p>
+          <ul>
+            <li>15 % de réduction au spa, au déj des voisins et au brunch du dimanche</li>
+            <li>La réservation prioritaire aux Jeudis, 48 h avant tout le monde</li>
+            <li>Une place offerte pour venir avec un ami à un Jeudi, chaque mois</li>
+          </ul>
         </li>
         <li>
           <h3>Initié</h3>
           <p class="n-quand">Après 8 passages</p>
-          <ul><li>Une soirée dans une chambre de l’hôtel</li><li>Un dîner à la table du chef</li></ul>
+          <p class="n-plus">Tous les avantages Habitué, et :</p>
+          <ul>
+            <li>Une Room Session : un concert acoustique, une rencontre avec un artiste, un brunch ou une projection privée dans une suite de l’hôtel, entre 10 et 20 invités, environ une fois par trimestre</li>
+            <li>Un dîner à la table du chef</li>
+            <li>Des invitations aux vernissages privés</li>
+          </ul>
         </li>
       </ol>
-      <p class="parcours-note">Un café, un déjeuner, un spa : chaque passage compte.</p>
+      <div class="cle-savoir">
+        <div>
+          <h3>Où la récupérer</h3>
+          <p>Sur ce site en une minute, à l’accueil de l’hôtel, ou chez nos partenaires : commerçants du centre, fac et Grand Théâtre. Les voisins de l’hôtel la reçoivent en premier.</p>
+        </div>
+        <div>
+          <h3>Comment compter un passage</h3>
+          <p>Montrez votre clé, la carte ou l’e-mail de bienvenue, au bar, au restaurant, au spa ou à un Jeudi. Chaque visite compte, une par jour.</p>
+        </div>
+        <div>
+          <h3>Ce qu’elle coûte</h3>
+          <p>Rien. La clé est gratuite, sans abonnement et sans engagement.</p>
+        </div>
+        <div>
+          <h3>Bientôt</h3>
+          <p>Votre clé dans Apple Wallet ou Google Wallet, avec l’appli.</p>
+        </div>
+      </div>
+      <a class="bouton bouton-jaune cle-cta" href="#inscription">Récupérer ma clé</a>
     </div>
   </section>
 
@@ -793,7 +998,7 @@ b, strong, th { font-weight: 600; }
     <div class="wrap inscription-grille">
       <div class="inscription-titre">
         <h2 id="titre-inscription">Récupérez votre clé</h2>
-        <p class="chapo">En une minute.</p>
+        <p class="chapo">Gratuite, en une minute. Vous recevez votre clé par e-mail, et la carte vous attend à l’accueil de l’hôtel.</p>
       </div>
 
       <div class="inscription-carte">
@@ -814,6 +1019,7 @@ b, strong, th { font-weight: 600; }
           <h3 id="conf-titre" tabindex="-1">Bienvenue !</h3>
           <p class="conf-verre">Votre premier verre vous attend à L’Avant-Scène.</p>
           <p id="conf-jeudi"></p>
+          <p class="conf-astuce">Montrez votre clé à chaque passage : au bout de 3, vous devenez Habitué.</p>
           <p class="conf-app"><span class="bientot">Bientôt</span><span id="conf-app-texte">Votre clé dans Apple Wallet, avec l’appli.</span></p>
           <p class="conf-physique">Vous préférez une vraie carte ? <strong>Elle vous attend à l’accueil de l’hôtel.</strong></p>
           <button class="lien-bouton" type="button" id="autre-cle">Créer une autre clé</button>
@@ -829,11 +1035,13 @@ b, strong, th { font-weight: 600; }
           </div>
           <div class="champ">
             <label for="email">Adresse e-mail</label>
-            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="email-erreur" required>
+            <input type="email" id="email" name="email" autocomplete="email" inputmode="email" aria-describedby="email-aide email-erreur" required>
+            <p class="aide" id="email-aide">Pour recevoir votre clé et le programme, chaque lundi.</p>
             <p class="message-erreur" id="email-erreur" hidden></p>
           </div>
           <fieldset class="champ">
             <legend>Vos envies (facultatif)</legend>
+            <p class="aide aide-envies">Pour vous proposer le Jeudi qui vous ressemble.</p>
             <div class="puces">
               <label class="puce"><input type="checkbox" id="envie-art" name="envie" value="1"><span>Art</span></label>
               <label class="puce"><input type="checkbox" id="envie-gout" name="envie" value="2"><span>Goût</span></label>
@@ -849,29 +1057,87 @@ b, strong, th { font-weight: 600; }
     </div>
   </section>
 
+  <section class="bande bande-sable" id="faq" aria-labelledby="titre-faq">
+    <div class="wrap">
+      <h2 id="titre-faq">Questions fréquentes</h2>
+      <div class="faq">
+        <details>
+          <summary>Faut-il dormir à l’hôtel pour venir ?</summary>
+          <p>Non. Le bar, le restaurant, le spa, les piscines et les Jeudis sont ouverts à tous les Aixois, sans réserver de chambre.</p>
+        </details>
+        <details>
+          <summary>La clé est-elle payante ?</summary>
+          <p>Non. Elle est gratuite, sans abonnement et sans engagement. Vous la créez en une minute sur ce site, ou vous la récupérez à l’accueil de l’hôtel et chez nos partenaires.</p>
+        </details>
+        <details>
+          <summary>Je n’ai pas encore de clé, je peux venir ?</summary>
+          <p>Oui, tout est ouvert à tous. La clé sert à recevoir le programme, à réserver les Jeudis et à cumuler des avantages.</p>
+        </details>
+        <details>
+          <summary>Combien ça coûte ?</summary>
+          <p>La clé est gratuite et votre premier verre est offert. Ensuite, vous payez ce que vous consommez : le déj des voisins dès 25 €, le brunch du dimanche 65 € par adulte, les Jeudis de 15 à 35 € selon le thème (10 € pour les étudiants au Jeudi Son). Les Habitués ont 15 % de réduction au spa, au déj des voisins et au brunch.</p>
+        </details>
+        <details>
+          <summary>Comment réserver ?</summary>
+          <p>Les Jeudis se réservent avec votre clé, grâce au lien envoyé chaque lundi dans la newsletter, ou à l’accueil. Pour le déjeuner, le dîner et le spa, réservez à l’accueil de l’hôtel. Le bar et le run club se font sans réservation.</p>
+        </details>
+        <details>
+          <summary>Comment ma clé monte-t-elle de niveau ?</summary>
+          <p>À chaque visite, montrez votre clé (la carte ou l’e-mail de bienvenue) au bar, au restaurant, au spa ou à un Jeudi. Chaque visite compte pour un passage, un par jour. Vous devenez Habitué après 3 passages et Initié après 8.</p>
+        </details>
+        <details>
+          <summary>Peut-on venir en famille ?</summary>
+          <p>Oui. Le brunch du dimanche se fait en version famille, et le Palm’s Pool Club accueille les familles l’été.</p>
+        </details>
+        <details>
+          <summary>Faut-il une tenue particulière ?</summary>
+          <p>Non, venez comme vous êtes. L’accueil est celui d’un 5 étoiles, l’ambiance reste détendue.</p>
+        </details>
+        <details>
+          <summary>Où se garer ?</summary>
+          <p>Au parking souterrain de l’hôtel : 80 places, dont des places adaptées. L’hôtel est aussi à 7 minutes à pied du Cours Mirabeau.</p>
+        </details>
+        <details>
+          <summary>J’ai perdu ma clé, que faire ?</summary>
+          <p>Votre clé reste dans votre e-mail de bienvenue, et une nouvelle carte vous attend à l’accueil de l’hôtel.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section class="bande bande-beige" id="infos" aria-labelledby="titre-infos">
     <div class="wrap">
       <h2 id="titre-infos">Venir au Renaissance</h2>
       <div class="infos-grille">
         <div>
-          <h3>Adresse</h3>
-          <p class="fort">320 avenue Wolfgang Amadeus Mozart, Aix-en-Provence</p>
-          <p>À 7 minutes à pied du centre.</p>
-        </div>
-        <div>
-          <h3>Parking</h3>
-          <p class="fort">80 places souterraines</p>
+          <h3>Adresse et accès</h3>
+          <p class="fort">320 avenue Wolfgang Amadeus Mozart, 13100 Aix-en-Provence</p>
+          <ul class="acces">
+            <li><strong>À pied :</strong> 3 minutes du Grand Théâtre de Provence, 7 minutes du Cours Mirabeau.</li>
+            <li><strong>En voiture :</strong> le parking souterrain de l’hôtel, 80 places, dont des places adaptées.</li>
+            <li><strong>Accessibilité :</strong> l’entrée et l’accueil sont de plain-pied.</li>
+          </ul>
         </div>
         <div>
           <h3>Horaires</h3>
           <dl class="horaires">
-            <div><dt>L’Avant-Scène</dt><dd>10h–00h30</dd></div>
-            <div><dt>Atmosph’R</dt><dd>12h–14h30 · 19h–22h</dd></div>
-            <div><dt>Spa</dt><dd>10h–20h</dd></div>
-            <div><dt>Palm’s Pool Club</dt><dd>l’été, dès 10h</dd></div>
+            <div><dt>L’Avant-Scène (bar)</dt><dd>Tous les jours, 10h–00h30</dd></div>
+            <div><dt>Atmosph’R (restaurant)</dt><dd>12h–14h30 · 19h–22h</dd></div>
+            <div><dt>Brunch du dimanche</dt><dd>12h–15h, hors été</dd></div>
+            <div><dt>Spa</dt><dd>Tous les jours, 10h–20h</dd></div>
+            <div><dt>Palm’s Pool Club</dt><dd>L’été, dès 10h</dd></div>
+            <div><dt>Jeudis Renaissance</dt><dd>Dès 19h · Son 21h–1h</dd></div>
+            <div><dt>Run club</dt><dd>Le samedi, 8h</dd></div>
           </dl>
         </div>
+        <div>
+          <h3>Réserver</h3>
+          <p class="fort">À l’accueil de l’hôtel, ou avec votre clé</p>
+          <p>Le lien pour réserver les Jeudis arrive chaque lundi dans la newsletter. Le bar et le run club se font sans réservation.</p>
+          <a class="bouton bouton-jaune infos-cta" href="#inscription">Récupérer ma clé</a>
+        </div>
       </div>
+      <p class="infos-note">Les tarifs et les horaires sont indicatifs : ce sont des propositions du projet, à valider avec l’hôtel.</p>
     </div>
   </section>
 </main>
@@ -891,10 +1157,10 @@ b, strong, th { font-weight: 600; }
   var reduit = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var JEUDIS = {
-    1: { nom: 'Art', lieu: 'dans le hall' },
-    2: { nom: 'Goût', lieu: 'à Atmosph’R' },
-    3: { nom: 'Son', lieu: 'dans la grande salle' },
-    4: { nom: 'Bien-être', lieu: 'au spa ou au Palm’s' }
+    1: { nom: 'Art', lieu: 'dans le hall', heure: '19h' },
+    2: { nom: 'Goût', lieu: 'à Atmosph’R', heure: '19h' },
+    3: { nom: 'Son', lieu: 'dans la grande salle', heure: '21h' },
+    4: { nom: 'Bien-être', lieu: 'au spa ou au Palm’s', heure: '19h' }
   };
   function estEte(mois) { return mois >= 4 && mois <= 8; }
   function formatJour(d) { return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); }
@@ -1007,7 +1273,7 @@ b, strong, th { font-weight: 600; }
     var ligne = document.getElementById('prochain-jeudi');
     ligne.appendChild(document.createTextNode('Prochain Jeudi : '));
     var fort = document.createElement('strong');
-    fort.textContent = JEUDIS[prochain.rang].nom + ', ' + formatJour(prochain.date);
+    fort.textContent = JEUDIS[prochain.rang].nom + ', ' + formatJour(prochain.date) + ' à ' + JEUDIS[prochain.rang].heure;
     ligne.appendChild(fort);
     ligne.hidden = false;
   }
@@ -1156,7 +1422,7 @@ b, strong, th { font-weight: 600; }
     var jeudi = jeudiDuRang(new Date(), rang);
     var texteJeudi = '';
     if (jeudi && JEUDIS[jeudi.rang]) {
-      texteJeudi = (rang ? 'Votre premier Jeudi ' + JEUDIS[jeudi.rang].nom + ' : ' : 'Prochain Jeudi, ' + JEUDIS[jeudi.rang].nom + ' : ') + formatJour(jeudi.date) + ', ' + JEUDIS[jeudi.rang].lieu + '.';
+      texteJeudi = (rang ? 'Votre premier Jeudi ' + JEUDIS[jeudi.rang].nom + ' : ' : 'Prochain Jeudi, ' + JEUDIS[jeudi.rang].nom + ' : ') + formatJour(jeudi.date) + ' à ' + JEUDIS[jeudi.rang].heure + ', ' + JEUDIS[jeudi.rang].lieu + '.';
     }
     var numero = String(Math.floor(Math.random() * 9000) + 1000);
     boutonCreer.disabled = true;
@@ -1526,6 +1792,75 @@ b, strong, th { font-weight: 600; }
     form.hidden = false;
     prenom.focus();
   });
+
+  /* Menu burger : le panneau s'ouvre sous l'en-tête. Échap, un clic à côté ou un lien le referment. */
+  var entete = document.querySelector('.entete');
+  var burger = document.getElementById('burger');
+  var menu = document.getElementById('menu');
+  var voileMenu = document.getElementById('menu-voile');
+  var liensMenu = Array.prototype.slice.call(menu.querySelectorAll('a'));
+  var horsMenu = [document.querySelector('.bandeau-demo'), document.querySelector('main'), document.querySelector('.pied')];
+  var minuterieMenu = null;
+  function menuOuvert() { return burger.getAttribute('aria-expanded') === 'true'; }
+  function placerMenu() { menu.style.setProperty('--haut-menu', Math.max(0, Math.round(entete.getBoundingClientRect().bottom)) + 'px'); }
+  function ouvrirMenu() {
+    clearTimeout(minuterieMenu);
+    placerMenu();
+    menu.hidden = false;
+    voileMenu.hidden = false;
+    menu.getBoundingClientRect();
+    menu.classList.add('ouvert');
+    voileMenu.classList.add('ouvert');
+    burger.setAttribute('aria-expanded', 'true');
+    burger.setAttribute('aria-label', 'Fermer le menu');
+    document.documentElement.classList.add('menu-ouvert');
+    horsMenu.forEach(function (el) { if (el) el.inert = true; });
+    (menu.querySelector('[aria-current="true"]') || liensMenu[0]).focus({ preventScroll: true });
+  }
+  function fermerMenu(rendreFocus) {
+    if (!menuOuvert()) return;
+    menu.classList.remove('ouvert');
+    voileMenu.classList.remove('ouvert');
+    burger.setAttribute('aria-expanded', 'false');
+    burger.setAttribute('aria-label', 'Ouvrir le menu');
+    document.documentElement.classList.remove('menu-ouvert');
+    horsMenu.forEach(function (el) { if (el) el.inert = false; });
+    minuterieMenu = setTimeout(function () { menu.hidden = true; voileMenu.hidden = true; }, reduit ? 0 : 220);
+    if (rendreFocus) burger.focus();
+  }
+  burger.addEventListener('click', function () { if (menuOuvert()) fermerMenu(true); else ouvrirMenu(); });
+  voileMenu.addEventListener('click', function () { fermerMenu(true); });
+  Array.prototype.slice.call(entete.querySelectorAll('a')).forEach(function (a) {
+    a.addEventListener('click', function () { fermerMenu(false); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && menuOuvert()) { e.preventDefault(); fermerMenu(true); }
+  });
+  window.addEventListener('resize', function () { if (menuOuvert()) placerMenu(); });
+
+  /* La section en cours est signalée dans le menu et dans la barre de navigation */
+  var liensSections = Array.prototype.slice.call(document.querySelectorAll('.menu-liste a, .nav a'));
+  var sectionsSuivies = [];
+  liensSections.forEach(function (a) {
+    var s = document.getElementById(a.getAttribute('href').slice(1));
+    if (s && sectionsSuivies.indexOf(s) < 0) sectionsSuivies.push(s);
+  });
+  function marquerSection(id) {
+    liensSections.forEach(function (a) {
+      if (id && a.getAttribute('href') === '#' + id) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    });
+  }
+  if ('IntersectionObserver' in window) {
+    var visibles = {};
+    var observateur = new IntersectionObserver(function (entrees) {
+      entrees.forEach(function (en) { visibles[en.target.id] = en.isIntersecting; });
+      var courante = null;
+      sectionsSuivies.forEach(function (s) { if (visibles[s.id]) courante = s.id; });
+      marquerSection(courante);
+    }, { rootMargin: '-35% 0px -60% 0px' });
+    sectionsSuivies.forEach(function (s) { observateur.observe(s); });
+  }
 })();
 </script>
 
