@@ -949,7 +949,7 @@ b, strong, th { font-weight: 600; }
       <div class="jeudis-grille">
         <article class="jeudi" data-rang="1">
           <p class="badge" hidden></p>
-          <p class="j-rang">1<sup>er</sup> jeudi du mois · 19h</p>
+          <p class="j-rang">Jeudi 18 février · 19h</p>
           <h3>Art</h3>
           <p class="j-lieu">Hall et galerie</p>
           <p class="j-texte">La visite des 150 œuvres de l’hôtel avec un artiste aixois, un verre à la main.</p>
@@ -957,7 +957,7 @@ b, strong, th { font-weight: 600; }
         </article>
         <article class="jeudi" data-rang="2">
           <p class="badge" hidden></p>
-          <p class="j-rang">2<sup>e</sup> jeudi du mois · 19h</p>
+          <p class="j-rang">Jeudi 25 février · 19h</p>
           <h3>Goût</h3>
           <p class="j-lieu">Atmosph’R</p>
           <p class="j-texte">Un atelier ou une dégustation avec le chef autour des produits locaux, puis une grande tablée partagée.</p>
@@ -965,7 +965,7 @@ b, strong, th { font-weight: 600; }
         </article>
         <article class="jeudi" data-rang="3">
           <p class="badge" hidden></p>
-          <p class="j-rang">3<sup>e</sup> jeudi du mois · 21h–1h</p>
+          <p class="j-rang">Jeudi 4 mars · 21h–1h</p>
           <h3>Son</h3>
           <p class="j-lieu">Grande salle</p>
           <p class="j-texte">DJ ou live d’artistes locaux. Billet nominatif avec la clé, sécurité sur place, pas d’open bar.</p>
@@ -973,7 +973,7 @@ b, strong, th { font-weight: 600; }
         </article>
         <article class="jeudi" data-rang="4">
           <p class="badge" hidden></p>
-          <p class="j-rang">4<sup>e</sup> jeudi du mois · 19h</p>
+          <p class="j-rang">Jeudi 11 mars · 19h</p>
           <h3>Bien-être</h3>
           <p class="j-lieu">Palm’s l’été, spa l’hiver</p>
           <p class="j-texte">L’été, du yoga au coucher du soleil avec casque audio, puis des mocktails sous les pergolas. L’hiver, au spa et à la piscine intérieure.</p>
@@ -991,7 +991,7 @@ b, strong, th { font-weight: 600; }
           <li>Le vestiaire, le parking et une petite attention au départ.</li>
         </ul>
       </div>
-      <p class="jeudis-resa"><strong>Pour réserver :</strong> avec votre clé, grâce au lien envoyé chaque lundi dans la newsletter, ou à l’accueil de l’hôtel. Les Habitués réservent 48 h avant tout le monde. Il n’y a pas de Jeudi le 5<sup>e</sup> jeudi du mois.</p>
+      <p class="jeudis-resa"><strong>Pour réserver :</strong> avec votre clé, grâce au lien envoyé chaque lundi dans la newsletter, ou à l’accueil de l’hôtel. Les Habitués réservent 48 h avant tout le monde. Le premier Jeudi a lieu le 18 février, puis un thème différent chaque semaine.</p>
       </div>
     </div>
   </section>
@@ -1225,14 +1225,16 @@ b, strong, th { font-weight: 600; }
   function estEte(mois) { return mois >= 4 && mois <= 8; }
   function formatJour(d) { return d.toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }); }
 
-  /* Le prochain jeudi d'un rang donné (1 à 4) ; sans rang, le prochain jeudi programmé (les 5es jeudis n'en ont pas). */
+  /* Les Jeudis commencent le 18 février 2027, puis un par semaine : Art, Goût, Son, Bien-être, et on recommence. */
+  var LANCEMENT_JEUDIS = new Date(2027, 1, 18, 12, 0, 0, 0);
   function jeudiDuRang(depuis, rang) {
-    var d = new Date(depuis.getTime());
+    var d = new Date(Math.max(depuis.getTime(), LANCEMENT_JEUDIS.getTime()));
     d.setHours(12, 0, 0, 0);
     d.setDate(d.getDate() + ((4 - d.getDay() + 7) % 7));
-    for (var i = 0; i < 16; i++) {
-      var r = Math.ceil(d.getDate() / 7);
-      if (rang ? r === rang : r <= 4) return { date: new Date(d.getTime()), rang: r };
+    for (var i = 0; i < 8; i++) {
+      var semaines = Math.round((d - LANCEMENT_JEUDIS) / (7 * 864e5));
+      var r = (semaines % 4) + 1;
+      if (!rang || r === rang) return { date: new Date(d.getTime()), rang: r };
       d.setDate(d.getDate() + 7);
     }
     return null;
@@ -1858,7 +1860,7 @@ b, strong, th { font-weight: 600; }
     '8h': { titre: '8h · Run club', texte: 'le samedi à 8h, départ du hall. Gratuit avec la clé.', creneau: '8h', lien: 'Voir le run club' },
     '12h': { titre: '12h · Le déj des voisins', texte: 'du lundi au vendredi à Atmosph’R, dès 25 €.', creneau: '12h', lien: 'Voir le déj des voisins' },
     '18h': { titre: '18h · Spa after work', texte: 'le vendredi de 18h à 20h, le spa puis un cocktail.', creneau: '18h', lien: 'Voir le spa after work' },
-    'jeudi': { titre: 'Jeudi 19h · Vernissage', texte: 'le 1er jeudi du mois, avec un artiste aixois.', ancre: '#jeudis', lien: 'Voir les Jeudis Renaissance' }
+    'jeudi': { titre: 'Jeudi 19h · Vernissage', texte: 'le premier Jeudi, le 18 février, avec un artiste aixois.', ancre: '#jeudis', lien: 'Voir les Jeudis Renaissance' }
   };
   var srcAffiche = ((new URLSearchParams(location.search).get('src') || '').match(/(8h|12h|18h|jeudi)$/) || [])[1];
   var affiche = srcAffiche ? AFFICHES[srcAffiche] : null;
